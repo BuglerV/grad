@@ -1,0 +1,5 @@
+{% extends 'form/form_container.twig' %}
+
+{% block element %}
+          <textarea{% if type == 'ckeditor' %} data-editor{% endif %} name="{{ name }}"{% if classes %} class="{{ classes }}"{% endif %}{% if attributes %} {{ attributes }}{% endif %}>{% if value %}{{ value }}{% endif %}</textarea>
+{% endblock %}

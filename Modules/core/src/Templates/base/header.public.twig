@@ -1,0 +1,20 @@
+    <div id="header">
+{{ setting('siteName') }}
+    </div>
+    
+<div style="position:fixed;top:5px;right:5px;background-color:yellow;padding:5px;border:1px black solid;border-radius:5px;">
+    <audio id="player" src="http://46.105.180.202:8077/stream" autoplay></audio>
+	<button onclick="document.getElementById('player').play()">PLAY</button>
+	<button onclick="document.getElementById('player').pause()">PAUSE</button>
+	<button onclick="document.getElementById('player').volume-=0.1">VOL-</button>
+	<button onclick="document.getElementById('player').volume+=0.1">VOL+</button>
+</div> 
+
+<script>
+myVid=document.getElementById("player");
+myVid.volume=0.1;
+</script>
+    
+    <nav>
+        
+    </nav>

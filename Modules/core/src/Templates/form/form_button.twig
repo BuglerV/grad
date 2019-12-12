@@ -1,0 +1,5 @@
+{% extends 'form/form_container.twig' %}
+
+{% block element %}
+          <button name="{{ name }}"{% if classes %} class="{{ classes }}"{% endif %}{% if attributes %} {{ attributes }}{% endif %} value="1">{{ value }}</button>
+{% endblock %}

@@ -1,0 +1,9 @@
+<div class="flex-container">
+{% for column in columns %}
+<div class="column fb1" style="flex-grow:{{ column.flexgrow }};order:{{ column.order }};">
+{% for row in column.windows %}
+    <div class="window">{{ window(row.name,row.params)|raw }}</div>
+{% endfor %}
+</div>
+{% endfor %}
+</div>

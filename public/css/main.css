@@ -1,0 +1,146 @@
+*{
+    padding:0px;
+    margin:0px;
+    box-sizing:border-box;
+}
+
+body{
+    background-color:white;
+}
+
+#rr{
+    margin-top:0.3em;
+    background-color:black;
+    color:white;
+}
+.rr_r{
+    flex-basis:50px;
+    flex-grow: 1;
+    text-align: center;
+}
+
+.cke{
+    margin:0 10px 0 0 !important;
+    border:1px solid black !important;
+}
+
+#body{
+    width:100%;
+    margin:auto;
+    font-family: Arial;
+font-size:0.8em;
+}
+
+#container{
+    max-width:1500px;
+    margin:0 auto;
+    background-color:black;
+    color:white;
+}
+
+h{
+    background-color:grey;
+    border-left:5px yellow solid;
+    padding:5px;
+    display:block;
+    margin-bottom:3px;
+    color:black;
+    font-size: 20px;
+}
+
+footer{
+    height:75px;
+    background-color:yellow;
+    color:grey;
+    font-size:40px;
+    text-align:center;
+    line-height:75px;
+}
+
+#header{
+    background-image: url(https://images.gameru.net/image/direct/45ba94008c687d6.jpg);
+    background-position: 30% center;
+    background-size: 100%;
+    height: 150px;
+    color: yellow;
+    text-align:center;
+    line-height:75px;
+    font-size:30px;
+}
+
+.flex-container,#rr{
+    display:flex;
+    justify-content:center;
+    align-items:stretch;
+    
+}
+
+
+
+.form-container{
+    margin-top:10px;
+}
+.form-title{
+    float:left;
+    padding:0 5px;
+    width:30%;
+    text-align:right;
+}
+.form-body{
+    margin-left:30%;
+    /* padding-top:3px; */
+}
+.form-info{
+    color:grey;
+    font-size:12px;
+    padding:2px;
+}
+.form-error{
+    color:red;
+    font-size:12px;
+    padding:2px;
+}
+
+button:hover{
+    cursor:pointer;
+}
+
+
+.right{
+    float:right;
+}
+
+.blog_tag{
+    cursor:pointer;
+    color: #faa;
+}
+.blog_tag:hover{
+    text-decoration:underline;
+}
+
+.blog_open{
+    cursor:pointer;
+    color:yellow;
+}
+.blog_open:hover{
+    text-decoration:underline;
+}
+
+.blog_image{
+    height: 6em;
+    margin-right: 0.5em;
+    float:left;
+    border:1px solid white;
+    border-radius:0.5em;
+}
+
+
+.column{
+    display:flex;
+    flex-direction:column;
+    padding:6px 0;
+    flex-basis:0px;
+}
+.window{
+    margin:0 3px;
+}

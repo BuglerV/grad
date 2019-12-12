@@ -1,0 +1,9 @@
+
+<form{% if id %} id="{{ id }}"{% endif %}{% if action %} action="{{ action }}"{% endif %}{% if method %} method="{{ method }}"{% endif %}{% if uploads %} enctype="multipart/form-data"{% endif %}>
+{% for hidden in hiddens %}
+    <input type="hidden" name="{{ hidden.name }}" value="{{ hidden.value }}">
+{% endfor %}
+{% for element in elements %}
+    {{ element | raw }}
+{% endfor %}
+</form>

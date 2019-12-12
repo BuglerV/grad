@@ -1,0 +1,7 @@
+RewriteEngine On
+
+RewriteCond %{REQUEST_URI} ^/public/admin
+RewriteRule ^(.*) admin/index.php [L]
+
+RewriteCond %{REQUEST_FILENAME} !(js|css|jpe?g|png|ico)$
+RewriteRule ^(.*) index.php [L]

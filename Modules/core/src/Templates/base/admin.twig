@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>{% block title %}{{ title }}{% endblock %}</title>
+{% for style in css %}
+        <link href="{{ pathInfo }}{{ style }}" rel="stylesheet">
+{% endfor %}
+    </head>
+    <body>
+        <div id="container">
+
+<div id="body">
+{% block body %}
+{{ body|raw }}
+{% endblock %}
+</div>
+
+        </div>
+{% for script in js %}
+        <script src="{{ pathInfo }}{{ script }}"></script>
+{% endfor %}
+    </body>
+</html>

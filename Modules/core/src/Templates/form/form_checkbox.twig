@@ -1,0 +1,5 @@
+{% extends 'form/form_container.twig' %}
+
+{% block element %}
+          <input type="{{ type }}" name="{{ name }}"{% if classes %} class="{{ classes }}"{% endif %}{% if attributes %} {{ attributes }}{% endif %}{% if value %} checked{% endif %}>
+{% endblock %}
