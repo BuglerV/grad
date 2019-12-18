@@ -1,7 +1,10 @@
+php_value upload_max_filesize 100M
+php_value post_max_size 100M
+
 RewriteEngine On
 
-RewriteCond %{REQUEST_URI} ^/public/admin
+RewriteCond %{REQUEST_URI} ^/admin
 RewriteRule ^(.*) admin/index.php [L]
 
-RewriteCond %{REQUEST_FILENAME} !(js|css|jpe?g|png|ico)$
+RewriteCond %{REQUEST_FILENAME} !(js|css|jpe?g|png|ico|mp3)$
 RewriteRule ^(.*) index.php [L]

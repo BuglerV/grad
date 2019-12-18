@@ -1,0 +1,16 @@
+<h>Список новостей</h>
+<a href="/admin/blog/new" class="admin_button">Добавить</a>
+<div data-role="navigator" data-module="{{ module }}">
+{{ paginator | raw }}
+{% for blog in rows %}
+  <div>
+    {{ blog.id }}
+    {{ blog.author }}
+    {{ blog.title | raw }}
+    <a href="/admin/blog/change/{{ blog.id }}" class="admin_button">Редактировать</a>
+    <span class="admin_button" data-id="{{ blog.id }}" data-type="crad_delete">Удалить</span>
+    <br>
+  </div>
+{% endfor %}
+{{ paginator | raw }}
+</div>

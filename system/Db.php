@@ -8,8 +8,8 @@ class Db extends Patterns\Singleton
     
     protected static $config;
     
-    public function getDbName(){
-        return $this->config['dbname'];
+    public static function getDbName(){
+        return self::$config['dbname'];
     }
     
     public static function i(...$args){

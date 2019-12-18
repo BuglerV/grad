@@ -8,6 +8,9 @@ abstract class ProtectedAbstractController
         if(\App\User::i()->isLogged())
             return;
         
+        if(\App\Request::i()->isXmlHttpRequest())
+            exit();
+        
         \App\Session::i()->from = '/admin' . \App\Request::i()->getPathInfo();
         
         header('Location: /admin/login/');

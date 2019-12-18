@@ -14,8 +14,12 @@ return [
         'url' => '/blog/change/(?P<id>[0-9]+)/?',
         'controller' => 'Modules\blog\src\Controllers\BlogController::changeAction'
     ],
-    'blogViewPost' => [
-        'url' => '/blog/change/(?P<id>[0-9]+)/?',
-        'controller' => 'Modules\blog\src\Controllers\BlogController::changeAction'
+    'blogOpenPost' => [
+        'url' => '/blog/open/(?P<id>[0-9]+)/?',
+        'controller' => 'Modules\blog\src\Controllers\BlogController::openAction'
+    ],
+    'blogListing' => [
+        'url' => '/blog/list/?',
+        'controller' => 'Modules\blog\src\Controllers\BlogController::listAction'
     ]
 ];

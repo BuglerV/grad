@@ -7,9 +7,12 @@ class User extends Patterns\Singleton
     protected static $instance;
     
     protected function __construct(){
+        if(!$user = \App\Cookie::i()->username)
+            return;
+        
         $query = 'SELECT * FROM users WHERE name = ?;';
         $stmt = \App\Db::i()->prepare($query);
-        $stmt->execute([\App\Cookie::i()->username]);
+        $stmt->execute([$user]);
         
         $user = $stmt->fetch(\PDO::FETCH_ASSOC);
         
@@ -27,28 +30,31 @@ class User extends Patterns\Singleton
     }
     
     public function createCsrfToken(){
-        $token = $this->getNewCsrf();
-        $this->csrf = $token;
-        $this->saveCsrf();
-        return $token;
+        if(!$this->csrf){
+            $this->csrf = $this->getNewCsrf();
+            $this->saveCsrf();
+        }
+        return $this->csrf;
     }
     
     public function checkCsrf($csrf = null){
         $csrf = $csrf ?? \App\Request::i()->get('csrf');
-        return $csrf == $this->csrf;
+        return $this->isLogged() AND $csrf == $this->csrf;
     }
     
     private function getNewCsrf(){
         return md5( $this->name . time() );
     }
-    
+
     public function isLogged(){
-        return !is_null(\App\User::i()->id);
+        return !is_null($this->id);
     }
     
     private function saveCsrf(){
-        $query = 'UPDATE users SET `csrf`=? WHERE id=?;';
-        $stmt = \App\Db::i()->prepare($query);
-        $stmt->execute([$this->csrf,$this->id]);
+        if($this->isLogged()){
+            $query = 'UPDATE users SET `csrf`=? WHERE id=?;';
+            $stmt = \App\Db::i()->prepare($query);
+            $stmt->execute([$this->csrf,$this->id]);
+        }
     }
 }

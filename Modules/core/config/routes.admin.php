@@ -12,5 +12,5 @@ return [
     'adminSettingPath' => [
         'url' => '/setting/(?P<module>[a-z]+)/?',
         'controller' => 'Modules\core\src\Controllers\AdminController::settingAction'
-    ]
+    ],
 ];

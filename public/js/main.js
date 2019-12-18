@@ -23,6 +23,10 @@
       }).done(function(data){document.getElementById('blog-view').outerHTML = data});
   }
   
+  system.eventType_core_paginator = function(target){
+      window.location = mainPath + 'admin/' + target.closest('.paginator').dataset['module'] + '/list?page=' + encodeURI(target.dataset['page']);
+  }
+  
   system.eventType_blog_page = function(target){
       system.blog.data.page = target.dataset['page'];
       
@@ -43,12 +47,82 @@
       system.blog.ajax('window/blog/View');
   }
   
+  system.eventType_crad_delete = function(target,navigator){
+      var id = target.dataset['id'];
+      if(confirm('Удаление id ' + id)){
+          var module = navigator.dataset['module'];
+
+          jQuery.ajax({
+              url: mainPath + 'admin/' + module + '/delete/' + id,
+              charset: 'UTF-8',
+              data: { csrf: csrf }
+          }).done(function(data){
+              if(data == 2 || data == 3){
+                  target.parentElement.remove();
+              }
+          });
+      }
+  }
+  
   system.eventType_blog_history = function(target){
       var res = s[target.dataset['method']]();
       if(typeof(res)=='boolean')
           return;
       
       system.blog.ajax('window/blog/View',res);
+  }
+  
+  system.eventType_blog_open = function(target){
+      var id = + target.closest('.blog_post').dataset['id'];
+      if(!id) return;
+      
+      jQuery.ajax({
+          url: mainPath + 'admin/blog/open/' + id,
+          charset: 'UTF-8',
+          data: {
+              'csrf': csrf
+          }
+      }).done(function(data){
+          if(data == '1'){
+              target.innerText = 'Показать';
+              target.closest('.blog_post').setAttribute('blogclosed','');
+          }
+          else if(data == '2'){
+              target.innerText = 'Скрыть';
+              target.closest('.blog_post').removeAttribute('blogclosed');
+          }
+      });
+  }
+  
+  system.eventType_blog_search = function(target){
+      var row = target.previousElementSibling;
+      var search = row.previousElementSibling;
+      if(!search.value)
+          return;
+      
+      system.blog.data = {};
+      system.blog.data.search = search.value;
+      system.blog.data.row = row.value;
+      
+      system.blog.ajax('window/blog/View');
+  }
+  
+  system.eventType_core_sound_load = function(target){
+      system.player.set(target.dataset['source']);
+  }
+  
+  system.eventType_core_quote = function(target){
+      var data = {};
+      
+      if(target.dataset['name']){
+          data.author = target.dataset['name'];
+      }
+
+      jQuery.ajax({
+          url: mainPath + 'window/quotes/Quote',
+          charset: 'UTF-8',
+          data: data
+      }).done(function(data){document.getElementById('core_quote').outerHTML = data});
   }
 
   window.onload = function(){

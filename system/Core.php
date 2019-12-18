@@ -18,7 +18,7 @@ class Core extends Patterns\Singleton
     
     public function run(){
         Kernel::i()->handle();
-
+        
         echo Output::i()->getOutput();
     }
 }

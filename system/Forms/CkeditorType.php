@@ -6,7 +6,7 @@ class CkeditorType extends AbstractType
 {
     protected static $is_load_js = false;
     
-    public function __construct($name=null,$value=null,$classes=[],$attributes=[],$options=[]){
+    public function __construct($name,$value=null,$classes=[],$attributes=[],$options=[]){
         parent::__construct($name,$value,$classes,$attributes,$options);
         
         if(!self::$is_load_js){

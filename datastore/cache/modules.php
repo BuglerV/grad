@@ -1,14 +1,20 @@
 <?php
 
 return array (
-  'core' => 
-  array (
-    'Base' => 1,
-  ),
   'blog' => 
   array (
-    'Base' => 1,
+    'Post' => 1,
     'View' => 1,
-    'Post' => 1
+  ),
+  'quotes' => 
+  array (
+    'Quote' => 1,
+  ),
+  'events' => 
+  array (
+    'Event' => 1,
+  ),
+  'core' => 
+  array (
   ),
 );

@@ -13,10 +13,10 @@ abstract class AbstractType implements TypeInterface
     protected $options;
     protected $error;
     
-    public function __construct($name=null,$value=null,$classes=[],$attributes=[],$options=[])
+    public function __construct($name,$value=null,$classes=[],$attributes=[],$options=[])
     {
         $this->name = $name;
-        $this->value = $value;
+        $this->setValue($value);
         $this->classes = $classes;
         $this->attributes = $attributes;
         $this->options = $options;
@@ -34,7 +34,8 @@ abstract class AbstractType implements TypeInterface
             'attributes' => implode(' ',$this->attributes),
             'type' => $this->type,
             'info' => $info,
-            'error' => $this->error
+            'error' => $this->error,
+            'options' => $this->options
         ]);
     }
     
@@ -74,5 +75,8 @@ abstract class AbstractType implements TypeInterface
 
         $this->value = $value;
         $this->verifyValue();
+    }
+    
+    public function modifyFromForm($form){
     }
 }

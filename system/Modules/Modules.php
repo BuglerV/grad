@@ -71,6 +71,9 @@ class Modules extends \App\Patterns\Singleton
             $modules[$row['m']][$row['w']] = 1;
         }
         
+        if(!isset($modules['core']))
+            $modules['core'] = [];
+
         \App\Store::i()->modules = $modules;
         
         return $modules;
@@ -94,7 +97,7 @@ class Modules extends \App\Patterns\Singleton
      */
     public function boot()
     {
-        if(!\App\Request::i()->isXmlHttpRequest()){
+        //if(!\App\Request::i()->isXmlHttpRequest()){
             foreach($this->getNames() as $name){
                 $name = basename($name);
                 $class = "Modules\\$name\\Module";
@@ -103,7 +106,7 @@ class Modules extends \App\Patterns\Singleton
                     $module->boot();
                 }
             }
-        }
+        //}
         return true;
     }
 }

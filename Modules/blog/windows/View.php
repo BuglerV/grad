@@ -12,57 +12,105 @@ class View extends AbstractWindow
     public $title = 'Блог';
     
     public function manage(){
-        $time = time();
+        $where = [];
+        $bind = [];
 
+        // Проверяю наличие тегов...
         if($name = \App\Request::i()->get('name')){
-            $where = $name=='author' ? ' AND `author` = ?' : ' AND `tags` LIKE ?';
+            $where[] = $name=='author' ? '`author` = ?' : '`tags` LIKE ?';
             $tag = \App\Request::i()->get('tag');
-            $bind = [$name == 'author' ? $tag : '%'.$tag.'%'];
+            $bind[] = $name == 'author' ? $tag : '%'.$tag.'%';
         }
-        $where = $where ?? '';
-        $bind = $bind ?? [];
         
-        $query = 'SELECT count(*) FROM blog_posts WHERE is_opened = 1 AND pubdate < '. $time . $where . ';';
+        // Проверяю наличие поиска...
+        elseif($row = \App\Request::i()->get('row')){
+            $search = \App\Request::i()->get('search');
+            foreach(\Modules\blog\src\Models\Post::$searchedRows as $one => $v){
+                if($one === $row){
+                    $where[] = "`$one` LIKE ?";
+                    $bind[] = '%'.$search.'%';
+                    
+                    if($row == 'text'){
+                        $where[count($where)-1] .= ' OR `preview` LIKE ?';
+                        $bind[] = '%'.$search.'%';
+                    }
+                    break;
+                }
+            }
+            $blog_search = [
+                'search' => $search,
+                'row' => $row
+            ];
+            $tag = 'Поиск';
+        }
+        
+        $time = time();
+        if(!\App\User::i()->isLogged() OR \App\User::i()->role != 'admin'){
+            // Только открытые...
+            $where[] = 'is_opened = 1';
+            // Для отображения только новых постов...
+            $where[] = 'pubdate < ' . $time;
+        }
+        
+        $where = $where ? ' WHERE ' . implode(' AND ',$where) : '' ;
+        $query = sprintf('SELECT count(*) FROM blog_posts%s;',$where);
+        
         $stmt = Db::i()->prepare($query);
-
         $stmt->execute($bind);
         $post_count = $stmt->fetch()[0];
         
+        // Для пагинации...
         $max = \App\Settings::i()->blog_max_posts;
         $pages = ceil($post_count / $max);
-
         $page = sprintf('%d',\App\Request::i()->get('page') ?? 1);
         $page = $page < 1 ? 1 : ($page > $pages ? $pages : $page);
 
-        $query = sprintf('SELECT * FROM blog_posts WHERE is_opened = 1 AND pubdate < '. $time . $where . ' ORDER BY id DESC LIMIT %d,%d;',($page - 1) * $max,$max);
+        // Достаю посты...
+        $query = sprintf('SELECT * FROM blog_posts%s ORDER BY pubdate DESC LIMIT %d,%d;',$where,($page - 1) * $max,$max);
         $stmt = Db::i()->prepare($query);
         $stmt->execute($bind);
-        
+
+        // Собираю посты для простого отображения...
         $posts = [];
         foreach($stmt->fetchAll() as $row){
-            $row['pubdate'] = date('H:i:s d-m-Y',$row['pubdate']);
+            if($row['pubdate'] > $time)
+                $row['after'] = true;
+
+            if($row['files']){
+                $files = array_filter(explode(\App\Forms\ListType::$delimiter,$row['files']));
+                $result = [];
+                foreach($files as $file){
+                   // if(strpos(mime_content_type(BASE_PUBLIC . $file),'image')===0)
+                        $result[] = $file;
+                }
+                $row['files'] = $result;
+            }
+            
             if($row['tags'])
                 $row['tags'] = explode(',',$row['tags']);
             $posts[] = $row;
         }
         
-        if(true OR $pages > 1){
-            $buttons = [];
-            if($page > 1){
-                $buttons[] = ['Первая' => 1];
-                $buttons[] = ['Пред.' => $page - 1];
-            }
-            
-            $paginator = \App\Twig::i()->render('blog_paginator.twig',[
-                'page' => $page,
-                'pages' => $pages
-            ]);
-        }
+        // Получаю пагинатор...
+        $paginator = \App\Twig::i()->render('core_paginator.twig',[
+            'page' => $page,
+            'pages' => $pages,
+            'jsMethod' => 'blog_page'
+        ]);
         
-        return \App\Twig::i()->render('blog_main_template.twig',[
+        // Опции...
+        $options = [];
+        foreach(\Modules\blog\src\Models\Post::$searchedRows as $key => $value){
+            $options[] = ['name'=>$key,'read'=>$value];
+        }
+
+        // Отображаю...
+        return \App\Twig::i()->render('blog_main.twig',[
             'posts' => $posts,
             'paginator' => $paginator ?? '',
-            'tag' => $tag ?? ''
+            'tag' => $tag ?? '',
+            'blog_search' => $blog_search ?? '',
+            'options' => $options
         ]);
     }
 }

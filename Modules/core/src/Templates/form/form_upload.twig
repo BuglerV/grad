@@ -1,5 +1,5 @@
 {% extends 'form/form_container.twig' %}
 
 {% block element %}
-          <input type="file" name="{{ name }}"{% if classes %} class="{{ classes }}"{% endif %}{% if attributes %} {{ attributes }}{% endif %}>
+          <input type="file" name="{{ name }}{% if options.multiple %}[]" multiple{% else %}"{% endif %}{% if classes %} class="{{ classes }}"{% endif %}{% if attributes %} {{ attributes }}{% endif %}>
 {% endblock %}

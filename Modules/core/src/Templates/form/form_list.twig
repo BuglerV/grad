@@ -1,0 +1,21 @@
+    <div class="form-container">
+{% if value %}
+        <div class="form-body" id="{{ name }}_list">
+{% for one in value %}
+          <div><input type="text" name="{{ name }}[]" value="{{ one }}"{% if classes %} class="{{ classes }}"{% endif %}{% if attributes %} {{ attributes }}{% endif %}> <span class="admin_button" onclick="this.parentElement.remove();">Удалить</span></div>
+{% endfor %}
+        </div>
+{% endif %}
+{% if error %}
+        <div class="form-error form-body">* {{ error }}</div>
+{% endif %}
+{% if title %}
+        <div class="form-title"><b>{{ title }}</b></div>
+{% endif %}
+        <div class="form-body">
+            <input type="text" name="{{ name }}[]"{% if classes %} class="{{ classes }}"{% endif %}{% if attributes %} {{ attributes }}{% endif %}>
+        </div>
+{% if info %}
+          <div class="form-info form-body">{{ info }}</div>
+{% endif %}
+    </div>

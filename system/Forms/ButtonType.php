@@ -10,6 +10,7 @@ class ButtonType extends AbstractType
             'value' => $this->value,
             'classes' => implode(' ',$this->classes),
             'attributes' => implode(' ',$this->attributes),
+            'options' => $this->options
         ]);
     }
 }

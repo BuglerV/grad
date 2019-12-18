@@ -21,7 +21,9 @@ class i18n extends Patterns\Singleton
             $this->loadDomain($domain,$lang);
         }
         
-        return $this->data[$domain][$lang][$word] ?? $word;
+        $result = $this->data[$domain][$lang][$word] ?? $word;
+        
+        return $result;
     }
     
     public function isset($word,$domain,$lang=null){

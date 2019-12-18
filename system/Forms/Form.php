@@ -28,27 +28,52 @@ class Form
     
     public function add($element)
     {
-        if(is_subclass_of($element,'\App\Forms\TypeInterface'))
-            $this->elements[] = $element;
+        if(is_subclass_of($element,'\App\Forms\TypeInterface')){
+            $this->elements[$element->getName()] = $element;
+        }
+        
+        $element->modifyFromForm($this);
+    }
+    
+    public function addLine()
+    {
+        $this->elements['el'.count($this->elements)] = new Line;
+    }
+    
+    public function addHeader($text = null)
+    {
+        if(!$text) return;
+        
+        $this->elements['el'.count($this->elements)] = new HeaderText($text);
+    }
+    
+    public function addCustom(...$args)
+    {
+        $this->elements['el'.count($this->elements)] = new Custom(...$args);
     }
 
-    public function save(){
+    public function save()
+    {
         foreach($this->elements as $element){
             if(is_subclass_of($element,'App\Forms\TypeInterface')){
                 $name = $element->getName();
                 \App\Settings::i()->$name = $element->getValue();
-            }   
+            }
         }
     }
     
-    public function addUpload(){
+    public function addUpload()
+    {
         $this->uploads = true;
     }
 
-    public function valuesFromRequest(){
+    public function valuesFromRequest()
+    {
         foreach($this->elements as $element){
-            if(is_subclass_of($element,'App\Forms\TypeInterface'))
-                $element->setValue();
+            if(!is_subclass_of($element,'App\Forms\TypeInterface'))
+                continue;
+            
+            $element->setValue();
             
             if($element->isError())
                 $this->valid = false;
@@ -56,7 +81,8 @@ class Form
         $this->isLoad = true;
     }
     
-    public function values(){
+    public function values()
+    {
         if(!$this->isLoad) $this->valuesFromRequest();
         
         $values = [];
@@ -65,6 +91,14 @@ class Form
                 $values[$element->getName()] = $element->getValue();
         }
         return $values;
+    }
+    
+    public function setValue($element,$value)
+    {
+        if(isset($this->elements[$element]) AND
+           is_subclass_of($this->elements[$element],'App\Forms\TypeInterface')){
+               $this->elements[$element]->setValue($value);
+           }
     }
     
     public function setValues($values)
@@ -76,7 +110,8 @@ class Form
         }
     }
     
-    public function isValid($checkCsrf = true){
+    public function isValid($checkCsrf = true)
+    {
         if(!$this->isLoad) $this->valuesFromRequest();
         if($checkCsrf AND !\App\User::i()->checkCsrf())
             return false;

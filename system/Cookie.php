@@ -12,7 +12,7 @@ class Cookie extends Patterns\Singleton
     
     public function __set($key,$value){
         $this->data[$key] = $value;
-        setcookie($key,$value,time()+3600,'/');
+        setcookie($key,$value,time()+(3600*24*356),'/');
     }
     
     public function __unset($key){

@@ -1,0 +1,18 @@
+<div data-role="navigator" id="core_quote">
+    <h>Цитата</h>
+    <div class="quote_container">
+      <div class="quote_body"><i>{{ quote.quote | raw }}</i><div class="quote_open">,,</div><div class="quote_close">,,</div></div>
+{% if quote.author %}
+      <span class="quote_author blog_tag" data-type="core_quote" data-name="{{ quote.author }}">{{ quote.author }} (c)</span>
+{% endif %}
+      <span class="blog_tag" data-type="core_quote">Еще</span>
+      <div class="clear"></div>
+{% if user('role') == 'admin' %}
+      <div class="right">
+        <a href="/admin/quotes/list/" class="admin_button">Все</a>
+        <a href="/admin/quotes/new/" class="admin_button">Добавить</a>
+        <a href="/admin/quotes/change/{{ quote.id }}" class="admin_button">Редактировать</a>
+      </div>
+{% endif %}
+    </div>
+</div>

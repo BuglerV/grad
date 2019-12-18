@@ -1,20 +1,52 @@
     <div id="header">
 {{ setting('siteName') }}
     </div>
-    
+
 <div style="position:fixed;top:5px;right:5px;background-color:yellow;padding:5px;border:1px black solid;border-radius:5px;">
     <audio id="player" src="http://46.105.180.202:8077/stream" autoplay></audio>
-	<button onclick="document.getElementById('player').play()">PLAY</button>
-	<button onclick="document.getElementById('player').pause()">PAUSE</button>
-	<button onclick="document.getElementById('player').volume-=0.1">VOL-</button>
-	<button onclick="document.getElementById('player').volume+=0.1">VOL+</button>
+	<button onclick="system.player.play()">PLAY</button>
+	<button onclick="system.player.pause()">PAUSE</button>
+	<button onclick="system.player.down()">VOL-</button>
+	<button onclick="system.player.up()">VOL+</button>
+	<button onclick="system.player.radio()" disabled id="player_radio">RADIO</button>
 </div> 
 
 <script>
-myVid=document.getElementById("player");
-myVid.volume=0.1;
+var system = system || {};
+system.player = {
+    source: 'http://46.105.180.202:8077/stream',
+    start: document.getElementById('player_radio'),
+    volume: 0.1,
+    phone: document.getElementById('player'),
+    play: function(){
+        system.player.phone.volume = system.player.volume;
+        system.player.phone.play();
+    },
+    pause: function(){
+        system.player.phone.pause();
+    },
+    down: function(){
+        if(system.player.volume == 0) return;
+        system.player.volume -= 0.1;
+        system.player.phone.volume = system.player.volume;
+    },
+    up: function(){
+        if(system.player.volume == 1) return;
+        system.player.volume += 0.1;
+        system.player.phone.volume = system.player.volume;
+    },
+    radio: function(){
+        system.player.set(system.player.source);
+    },
+    set: function(source){
+        system.player.phone.src = source;
+        system.player.phone.play();
+        system.player.start.disabled = source != system.player.source ? 0:1;
+    }
+};
+system.player.phone.volume = system.player.volume;
 </script>
-    
+
     <nav>
         
     </nav>

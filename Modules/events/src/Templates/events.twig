@@ -1,0 +1,33 @@
+{% if todays %}
+<h>Сегодня</h>
+{% for today in todays %}
+    {{ time(today.date,'H:i') }}
+    {{ today.title }}<br>
+{% if user('role') == 'admin' %}
+<div class="blog_info">
+  <a href="/admin/events/change/{{ today.id }}" class="admin_button">Редактировать</a>
+</div>
+{% endif %}
+{% endfor %}
+{% endif %}
+
+<h>Анонсы</h>
+{% if tomorrows %}
+{% for tomorrow in tomorrows %}
+    {{ time(tomorrow.date,'d-m-Y H:i') }}
+    {{ tomorrow.title }}<br>
+{% if user('role') == 'admin' %}
+<div class="blog_info">
+  <a href="/admin/events/change/{{ tomorrow.id }}" class="admin_button">Редактировать</a>
+</div>
+{% endif %}
+{% endfor %}
+{% else %}
+<span>Событий нет...</span>
+{% endif %}
+{% if user('role') == 'admin' %}
+  <span class="right">
+    <a href="/admin/events/list/" class="admin_button">Все</a>
+    <a href="/admin/events/new/" class="admin_button">Добавить</a>
+  </span>
+{% endif %}

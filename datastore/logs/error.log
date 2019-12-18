@@ -1,0 +1,2 @@
+[2019-12-16 12:21:33] GlobalLogger.WARNING: Попытка загрузить несуществующий вид "". ["Twig"] []
+[2019-12-16 12:22:47] GlobalLogger.WARNING: Попытка загрузить несуществующий вид "events_listing.twig". ["Twig"] []

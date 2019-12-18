@@ -6,13 +6,28 @@ class Post extends \App\Models\Model
 {
     protected $table = 'blog_posts';
     
-    protected $loadedRows = [
-        'title', 'author', 'text', 'preview', 'image', 'tags', 'is_opened', 'pubdate'
+    public static $searchedRows = [
+        'title' => 'Заголовок',
+        'author' => 'Автор',
+        'text' => 'Текст',
+        'tags' => 'Теги'
+    ];
+    protected static $loadedRows = [
+        'title', 'author', 'text', 'preview', 'files', 'image', 'tags', 'is_opened', 'pubdate'
     ];
     
     protected function setter_pubdate($value)
     {
-        $this->pubdate = $value ?: time();
+        $this->data['pubdate'] = $value ?: time();
+    }
+    
+    public function openPost(){
+        if($this->isLoad()){
+            $this->is_opened = $this->is_opened ? 0 : 1;
+            $this->save();
+            
+            return $this->is_opened;
+        }
     }
     
     protected function setter_tags($values)
@@ -26,6 +41,6 @@ class Post extends \App\Models\Model
             }
             $tags = implode(',',array_filter(array_unique($tags)));
         }
-        $this->tags = $tags ?: '';
+        $this->data['tags'] = $tags ?: '';
     }
 }

@@ -8,20 +8,8 @@ body{
     background-color:white;
 }
 
-#rr{
-    margin-top:0.3em;
-    background-color:black;
-    color:white;
-}
-.rr_r{
-    flex-basis:50px;
-    flex-grow: 1;
-    text-align: center;
-}
-
-.cke{
-    margin:0 10px 0 0 !important;
-    border:1px solid black !important;
+a{
+    text-decoration:none;
 }
 
 #body{
@@ -30,6 +18,11 @@ body{
     font-family: Arial;
 font-size:0.8em;
 }
+.cke{
+    margin:0 10px 0 0 !important;
+    border:1px solid black !important;
+}
+
 
 #container{
     max-width:1500px;
@@ -68,15 +61,50 @@ footer{
     font-size:30px;
 }
 
+
+
+
+
+
+
+/* Навигация */
+#rr{
+    margin-top:0.3em;
+    background-color:black;
+    color:white;
+}
+.rr_r{
+    flex-basis:50px;
+    flex-grow: 1;
+    text-align: center;
+}
+
+
+
+
+
+/* Разбиение на колонки с помощью ФЛЕКСа */
 .flex-container,#rr{
     display:flex;
     justify-content:center;
     align-items:stretch;
     
 }
+.column{
+    display:flex;
+    flex-direction:column;
+    padding:6px 0;
+    flex-basis:0px;
+}
+.window{
+    margin:0 3px;
+}
 
 
 
+
+
+/* Формы. На данный момент не актуально...  */
 .form-container{
     margin-top:10px;
 }
@@ -101,6 +129,15 @@ footer{
     padding:2px;
 }
 
+/*  Элементы форм  */
+
+
+
+
+
+
+
+
 button:hover{
     cursor:pointer;
 }
@@ -110,12 +147,36 @@ button:hover{
     float:right;
 }
 
+.left{
+    float:left;
+}
+
+
+/* Для админов */
+.admin_button{
+    color: #99f;
+}
+.admin_button:hover{
+    cursor:pointer;
+    text-decoration:underline;
+}
+
+
+
+/*  Стили самого блога */
 .blog_tag{
     cursor:pointer;
     color: #faa;
 }
 .blog_tag:hover{
     text-decoration:underline;
+}
+
+.blog_header{
+    padding:0.5em 0 0.5em 5em;
+    margin:2em 2em 0 2em;
+    background-color:grey;
+    font-size:1.5em;
 }
 
 .blog_open{
@@ -128,19 +189,63 @@ button:hover{
 
 .blog_image{
     height: 6em;
+    width: 6em;
     margin-right: 0.5em;
-    float:left;
     border:1px solid white;
     border-radius:0.5em;
+    overflow:hidden;
+}
+.blog_image > img{
+    height:100%;
+}
+
+.blog_info{
+    text-align:right;
+    margin-top:0.5em;
+}
+[blogClosed]{
+    background-color:#300;
+}
+[blogAfter]{
+    background-color:#003;
 }
 
 
-.column{
-    display:flex;
-    flex-direction:column;
-    padding:6px 0;
-    flex-basis:0px;
+
+
+
+
+/* Цитатник */
+.quote_container{
+    max-width:40em;
+    margin:auto;
+    padding:1em;
 }
-.window{
-    margin:0 3px;
+.quote_body{
+    width:90%;
+    margin:auto;
+    padding: 1em;
+    margin-bottom:1em;
+    position:relative;
+    text-align:center;
+}
+.quote_author{
+    float:right;
+}
+.clear{
+    clear:both;
+}
+.quote_open, .quote_close{
+    color:grey;
+    font-size:4em;
+    position:absolute;
+    letter-spacing:-0.15em;
+}
+.quote_open{
+    right:-0.1em;
+    top:-0.7em;
+}
+.quote_close{
+    left:-0.15em;
+    bottom:0px;
 }

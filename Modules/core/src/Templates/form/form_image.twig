@@ -1,0 +1,19 @@
+    <div class="form-container">
+{% if value %}
+        <div class="form-body">
+            <img class="blog_image" src="{{ value }}">
+        </div>
+{% endif %}
+{% if error %}
+        <div class="form-error form-body">* {{ error }}</div>
+{% endif %}
+{% if title %}
+        <div class="form-title"><b>{{ title }}</b></div>
+{% endif %}
+        <div class="form-body">
+            <input type="text" name="{{ name }}"{% if classes %} class="{{ classes }}"{% endif %}{% if attributes %} {{ attributes }}{% endif %}{% if value %} value="{{ value }}"{% endif %}>
+        </div>
+{% if info %}
+          <div class="form-info form-body">{{ info }}</div>
+{% endif %}
+    </div>

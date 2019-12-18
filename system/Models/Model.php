@@ -5,7 +5,7 @@ namespace App\Models;
 abstract class Model
 {
     protected $mainRow = 'id';
-    protected $loadedRows = null;
+    protected static $loadedRows = null;
     
     protected $table = null;
     
@@ -39,7 +39,7 @@ abstract class Model
         $query .= " {$this->table} SET ";
         
         $colsArray = $binds = [];
-        foreach($this->loadedRows as $row){
+        foreach(static::$loadedRows as $row){
             $colsArray[] = "`$row` = ? ";
             $binds[] = $this->$row;
         }
@@ -49,9 +49,8 @@ abstract class Model
             $query .= 'WHERE '. $this->mainRow .' = ?';
             $binds[] = $this->id;
         }
-        
+
         $query .= ';';
-        
         $stmt = \App\Db::i()->prepare($query);
         $stmt->execute($binds);
         
@@ -72,7 +71,12 @@ abstract class Model
     
     public function getValues()
     {
-        return $this->data;
+        $values = [];
+        foreach($this->data as $key => $value){
+            $values[$key] = $this->$key;
+        }
+
+        return $values;
     }
     
     public function setValues($values)
@@ -80,7 +84,7 @@ abstract class Model
         if(!is_array($values))
             return;
 
-        foreach($this->loadedRows as $key){
+        foreach(static::$loadedRows as $key){
             if(isset($values[$key]))
                 $this->$key = $values[$key];
             else
@@ -93,8 +97,7 @@ abstract class Model
         if(!$row) return;
         
         // Удалить из списка столбцов название главного по сортировке.
-        
-        $query = 'SELECT '. $this->mainRow .', ' . implode(', ',$this->loadedRows) . " FROM {$this->table} WHERE {$this->mainRow} = ?;";
+        $query = 'SELECT '. $this->mainRow .', ' . implode(', ',static::$loadedRows) . " FROM {$this->table} WHERE {$this->mainRow} = ?;";
         $stmt = \App\Db::i()->prepare($query);
         $stmt->execute([$row]);
         

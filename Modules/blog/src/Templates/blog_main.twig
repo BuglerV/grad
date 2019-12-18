@@ -1,0 +1,33 @@
+<div data-role="navigator" id="blog-view">
+    <h>Новости</h>
+      <div class="blog_search">
+{% if user('role') == 'admin' %}
+      <span class="right">
+        <a href="admin/blog/list/" class="admin_button">Все</a>
+        <a href="admin/blog/new/" class="admin_button">Добавить</a>
+      </span>
+{% endif %}
+          <input type="text" name="search" value="{% if blog_search.search %}{{ blog_search.search }}{% endif %}" placeholder="Поиск">
+          <select name="row" id="blog_search_row">
+{% for option in options %}
+            <option value="{{ option.name }}"{% if option.name == blog_search.row %} selected{% endif %}>{{ option.read }}</option>
+{% endfor %}
+          </select>
+          <button data-type="blog_search">Далее</button>
+      </div>
+      <br><hr><br>
+      <span class="right">
+{% if tag %}
+        <span class="blog_tag" data-type="blog_home">{{ tag }}</span>
+{% endif %}
+        <span class="blog_tag" data-type="blog_history" data-method="back">&lt;</span>
+        <span class="blog_tag" data-type="blog_history" data-method="forward">></span>
+      </span>
+      {{ paginator|raw }}
+      <br><hr><br>
+    {% for post in posts %}
+{% include 'blog_row.twig' %}
+      <br><hr><br>
+    {% endfor %}
+      {{ paginator|raw }}
+</div>

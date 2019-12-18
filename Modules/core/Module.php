@@ -20,5 +20,15 @@ class Module implements ModuleInterface
         \App\Twig::i()->addFunction('setting',function($name){
             return \App\Settings::i()->$name;
         });
+        
+        \App\Twig::i()->addFunction('time',function($ts,$format){
+            return date($format,$ts);
+        });
+        
+        \App\Twig::i()->addFunction('user',function($name){
+            if(!\App\User::i())
+                return '';
+            return \App\User::i()->$name;
+        });
     }
 }

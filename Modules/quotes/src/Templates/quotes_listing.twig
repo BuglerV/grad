@@ -1,0 +1,16 @@
+<h>Список цитат</h>
+<a href="/admin/quotes/new" class="admin_button">Добавить</a>
+<div data-role="navigator" data-module="quotes">
+{{ paginator | raw }}
+{% for quote in rows %}
+  <div>
+    {{ quote.id }}
+    {{ quote.author }}
+    {{ quote.quote | raw }}
+    <a href="/admin/quotes/change/{{ quote.id }}" class="admin_button">Редактировать</a>
+    <span class="admin_button" data-id="{{ quote.id }}" data-type="crad_delete">Удалить</span>
+    <br>
+  </div>
+{% endfor %}
+{{ paginator | raw }}
+</div>

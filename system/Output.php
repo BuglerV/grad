@@ -46,13 +46,16 @@ class Output extends Patterns\Singleton
         if($this->ckeditor)
             $this->js[] = 'ckeditor/ckeditor.js';
         
+        if(\App\User::i()->role == 'admin')
+            $this->addJsVar('csrf',\App\User::i()->createCsrfToken());
+        
         return Twig::i()->render('base/'. Env::i()->wall .'.twig',[
             'body' => $this->output,
             'css' => $this->css,
             'js' => $this->js,
             'meta' => $this->meta,
             'title' => $this->getTitle(),
-            'pathInfo' => $_SERVER['REDIRECT_URL'] ?? '/',
+            'pathInfo' => MAIN_PATH,
             'jsVars' => $this->jsVars
         ]);
     }

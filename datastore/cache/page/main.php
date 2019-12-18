@@ -3,7 +3,7 @@
 return [
     0 => [
         'name' => '',
-        'flexgrow' => 3,
+        'flexgrow' => 2,
         'order' => 2,
         'windows' => [
             [
@@ -18,7 +18,7 @@ return [
         'order' => 1,
         'windows' => [
             [
-                'name' => 'Modules\\blog\\windows\\Base',
+                'name' => 'Modules\\events\\windows\\Event',
                 'params' => ''
             ]
         ]
@@ -29,7 +29,7 @@ return [
         'order' => 3,
         'windows' => [
             [
-                'name' => 'Modules\\core\\windows\\Base',
+                'name' => 'Modules\\quotes\\windows\\Quote',
                 'params' => ''
             ]
         ]

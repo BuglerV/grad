@@ -8,6 +8,12 @@
 {% endfor %}
     </head>
     <body>
+      <script>
+        var mainPath = "{{ pathInfo }}";
+{% for jsVar in jsVars %}
+        var {{ jsVar.name }} = "{{ jsVar.value }}";
+{% endfor %}
+      </script>
         <div id="container">
 
 <div id="body">

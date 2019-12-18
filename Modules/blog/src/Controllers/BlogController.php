@@ -3,9 +3,20 @@
 namespace Modules\blog\src\Controllers;
 
 use Modules\core\src\Controllers\ProtectedAbstractController as ProtectedController;
+use \Modules\core\src\Controllers\Traits\CradTraitController as CRAD;
 
 class BlogController extends ProtectedController
 {
+    use CRAD;
+    
+    protected $prefix = 'blog_new_';
+    protected $textName = 'новость';
+    
+    protected $table = 'blog_posts';
+    protected $rowsForListing = ['id','title','author'];
+    
+    protected $module = 'blog';
+    protected $modelName = 'Post';
     
     public function __construct()
     {
@@ -14,89 +25,66 @@ class BlogController extends ProtectedController
         \App\Output::i()->title = 'Новости';
     }
     
-    protected function _getPostFrom()
+    protected function _getForm()
     {
         $form = new \App\Forms\Form('blog_new');
+        
+        $form->addHeader('Основные настройки');
         $form->add(new \App\Forms\TextType('blog_new_title','',[],[],['require'=>true]));
         $form->add(new \App\Forms\TextType('blog_new_author'));
         $form->add(new \App\Forms\TextType('blog_new_tags'));
-        $form->add(new \App\Forms\TextType('blog_new_image'));
+        
+        $form->addHeader('Превью изображение');
+        $form->add(new \App\Forms\ImageType('blog_new_image'));
         $form->add(new \App\Forms\UploadType('blog_new_upload'));
+        
+        $form->addHeader('Контент');
         $form->add(new \App\Forms\CkeditorType('blog_new_preview','',[],[],['max_length'=>'200','require'=>true]));
         $form->add(new \App\Forms\CkeditorType('blog_new_text'));
+        
+        $form->addHeader('Прикрепленные аудиозаписи');
+        $form->add(new \App\Forms\ListType('blog_new_files'));
+        $form->add(new \App\Forms\UploadType('blog_new_attachments','',[],[],['multiple'=>true]));
+        
+        $form->addHeader('Дополнительно');
         $form->add(new \App\Forms\CheckboxType('blog_new_is_opened',true));
-        $form->add(new \App\Forms\DateTimeType('blog_new_pubdate',true));
+        $form->add(new \App\Forms\DateTimeType('blog_new_pubdate','',[],[],['require'=>true]));
         
         return $form;
     }
     
-    public function newAction()
-    {
-        $form = $this->_getPostFrom();
-        
-        if($form->isSubmitted() AND $form->isValid()){
-            $values = [];
-            foreach($form->values() as $key => $value){
-                $key = str_replace('blog_new_','',$key);
-                $values[$key] = $value;
-            }
-            
-            $post = new \Modules\blog\src\Models\Post();
-            $post->setValues($values);
-            $post->save();
-            // Здесь нужно вывести сообщение о сохранении...
-        }
-
-        \App\Output::i()->output = '<h>Добавить новость</h>' . $form;
-    }
-    
-    public function changeAction($arguments)
-    {
-        $post = new \Modules\blog\src\Models\Post($arguments['id']);
-
-        if(!$post->isLoad()){ return; }
-        
-        $form = $this->_getPostFrom();
-        
-        if($form->isSubmitted())
-        {
-            if($form->isValid()){
-                $values = [];
-                foreach($form->values() as $key => $value){
-                    $key = str_replace('blog_new_','',$key);
-                    $values[$key] = $value;
-                }
-
-                $post->setValues($values);
-                $post->save();
-                // Здесь нужно вывести сообщение о сохранении...
-            }
-        }
-        else
-        {
-            $values = [];
-            foreach($post->getValues() as $key => $value){
-                $values['blog_new_' . $key] = $value;
-            }
-            
-            $form->setValues($values);
-        }
-        
-        \App\Output::i()->output = '<h>Редактируем новость</h>' . $form;
-    }
-    
-    public function deleteAction($arguments)
+    public function openAction($arguments)
     {
         if(!\App\User::i()->isLogged() OR !\App\User::i()->checkCsrf())
             exit();
-
+        
         $post = new \Modules\blog\src\Models\Post($arguments['id']);
         if($post->isLoad()){
-            \App\Output::i()->output = $post->delete() ? 0 : 1;
+            \App\Output::i()->output = $post->openPost() ? 2 : 1;
         }
         else{
-            \App\Output::i()->output = 2;
+            \App\Output::i()->output = 0;
         }
+    }
+    
+    protected function beforeSaving($values)
+    {
+        if(strpos($_FILES['blog_new_upload']['type'],'image') !== 0)
+            unset($_FILES['blog_new_upload']);
+        
+        \App\Uploader::i()->saveFromPOST();
+        $names = \App\Uploader::i()->getNames();
+
+        if(isset($names['blog_new_upload']))
+            $values['image'] = $names['blog_new_upload'][0];
+        
+        if(isset($names['blog_new_attachments'])){
+            $files = array_merge([$values['files']],$names['blog_new_attachments']);
+            $files = implode(\App\Forms\ListType::$delimiter,$files);
+            $values['files'] = trim($files,'~');
+        }
+
+        return $values;
     }
 
 }
