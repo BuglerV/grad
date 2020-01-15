@@ -1,0 +1,20 @@
+{% if tomorrows %}
+{% for tomorrow in tomorrows %}
+    {{ tomorrow.date }}
+    {{ time(tomorrow.time,'H:i') }}<br>
+    {{ tomorrow.title }}<br>
+{% if tomorrow.text %}
+    {{ tomorrow.text | raw }}
+{% endif %}
+{% if tomorrow.look %}
+      <div hidden>{{ tomorrow.look | raw }}</div><span class="events_open" onclick="this.previousElementSibling.toggleAttribute('hidden');">{{ translate('events_hide_show') }}</span><br>
+{% endif %}
+{% if user('role') == 'admin' %}
+<div class="blog_info">
+  <a href="/admin/events/change/{{ tomorrow.id }}" class="admin_button">{{ translate('crud_change') }}</a>
+</div>
+{% endif %}
+{% endfor %}
+{% else %}
+<span>Событий нет...</span>
+{% endif %}

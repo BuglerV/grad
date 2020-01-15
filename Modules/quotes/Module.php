@@ -2,10 +2,12 @@
 
 namespace Modules\quotes;
 
-use App\Modules\ModuleInterface;
+use App\Modules\AbstractModule;
 
-class Module implements ModuleInterface
+class Module extends AbstractModule
 {
+    public $crud = true;
+    
     public function boot(){
     }
 }

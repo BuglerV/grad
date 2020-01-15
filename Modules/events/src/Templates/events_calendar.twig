@@ -1,0 +1,27 @@
+  <div id="events_cal_container" data-month="{{ month }}" data-role="navigator" class="mb05">
+    <span class="blog_tag" data-type="events_month">&lt;</span>
+    <span id="cal_month_view">{{ translate(time(month,'M')) | raw }} {{ time(month,'Y') }}</span>
+    <span class="blog_tag" data-type="events_month">></span>
+<div class="events_cal">
+    <div class="cal_week_day">Пн</div>
+    <div class="cal_week_day">Вт</div>
+    <div class="cal_week_day">Ср</div>
+    <div class="cal_week_day">Чт</div>
+    <div class="cal_week_day">Пт</div>
+    <div class="cal_week_day">Сб</div>
+    <div class="cal_week_day">Вс</div>
+</div>
+<div id="calendar" class="events_cal">
+{% if void %}
+{% for one in 1..void %}
+    <div></div>
+{% endfor %}
+{% endif %}
+{% for day in 1..days %}
+{% set fullday = day %}
+{% if day < 10 %}{% set fullday = '0' ~ fullday %}{% endif %}
+{% set fullday = month ~ '-' ~ fullday %}
+    <div data-day="{{ fullday }}" class="cal_day{% if fullday == today %} cal_today{% endif %}{% if stored[fullday] %} blog_tag" data-type="events_day{% endif %}">{{ day }}</div>
+{% endfor %}
+</div>
+  </div>

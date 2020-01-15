@@ -2,10 +2,12 @@
 
 namespace Modules\blog;
 
-use App\Modules\ModuleInterface;
+use App\Modules\AbstractModule;
 
-class Module implements ModuleInterface
+class Module extends AbstractModule
 {
+    public $crud = true;
+    
     public function boot(){
         \App\Twig::i()->addFunction('sound_name',function($name){
             $name = basename($name);

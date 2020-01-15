@@ -29,13 +29,15 @@ class Modules extends \App\Patterns\Singleton
         $this->data = $modules;
     }
     
-    public function getSettings($module){
+    public function getSettings($module,$onlyCheck=false){
         $fileName = MODULES . "/$module/Settings.php";
         if(is_file($fileName)){
+            if($onlyCheck)
+                return true;
             include $fileName;
             return $form;
         }
-        return 'Для этого модуля не предусмотрены настройки.';
+        return false;
     }
     
     public function loadModulesFromDb($onlyModules=false){
@@ -88,6 +90,38 @@ class Modules extends \App\Patterns\Singleton
      */
     public function getNames(){
         return $this->names;
+    }
+    
+    public function getModuleVars($module = null)
+    {
+        $modules = $this->loadModulesFromDb();
+        
+        foreach($modules as $key => $value){
+            $modules[$key]['settings'] = $this->getSettings($value['name'],true);
+            
+            $class = "Modules\\{$value['name']}\\Module";
+            if(file_exists(BASE . '/' . str_replace('\\','/',$class) . '.php')){
+                $module = new $class;
+                $modules[$key]['crud'] = $module->crud;
+            }
+            
+            $modules[$key]['I18n'] = [];
+            $dir = new \DirectoryIterator(BASE . "/Modules/{$value['name']}/src/I18n/");
+            foreach($dir as $oneDir){
+                if($oneDir->isDot() OR !$oneDir->isFile())
+                    continue;
+                
+                if($oneDir->getExtension() == 'php'){
+                    $name = explode('.',$oneDir->getFilename());
+                    $modules[$key]['I18n'][] = [
+                        'domain' => $name[0],
+                        'lang' => $name[1]
+                    ];
+                }
+            }
+        }
+        
+        return $modules;
     }
     
     /**

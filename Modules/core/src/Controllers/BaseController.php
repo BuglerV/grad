@@ -11,7 +11,7 @@ class BaseController
         \App\Output::i()->output = \App\Twig::i()->render('core_page_base.twig',[
             'columns' => $columns
         ]);
-        \App\Output::i()->title = \App\I18n::i()->translate('Main');
+        \App\Output::i()->title = 'Главная';
     }
     
     public function page404Action(){

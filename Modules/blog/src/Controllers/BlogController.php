@@ -10,7 +10,6 @@ class BlogController extends ProtectedController
     use CRAD;
     
     protected $prefix = 'blog_new_';
-    protected $textName = 'новость';
     
     protected $table = 'blog_posts';
     protected $rowsForListing = ['id','title','author'];
@@ -22,7 +21,7 @@ class BlogController extends ProtectedController
     {
         parent::__construct();
         
-        \App\Output::i()->title = 'Новости';
+        \App\Output::i()->title = \App\I18n::i()->translate('blog_main_title');
     }
     
     protected function _getForm()
@@ -33,13 +32,9 @@ class BlogController extends ProtectedController
         $form->add(new \App\Forms\TextType('blog_new_title','',[],[],['require'=>true]));
         $form->add(new \App\Forms\TextType('blog_new_author'));
         $form->add(new \App\Forms\TextType('blog_new_tags'));
-        
-        $form->addHeader('Превью изображение');
-        $form->add(new \App\Forms\ImageType('blog_new_image'));
-        $form->add(new \App\Forms\UploadType('blog_new_upload'));
-        
+
         $form->addHeader('Контент');
-        $form->add(new \App\Forms\CkeditorType('blog_new_preview','',[],[],['max_length'=>'200','require'=>true]));
+        $form->add(new \App\Forms\CkeditorType('blog_new_preview','',[],[],['require'=>true]));
         $form->add(new \App\Forms\CkeditorType('blog_new_text'));
         
         $form->addHeader('Прикрепленные аудиозаписи');
@@ -69,14 +64,14 @@ class BlogController extends ProtectedController
     
     protected function beforeSaving($values)
     {
-        if(strpos($_FILES['blog_new_upload']['type'],'image') !== 0)
-            unset($_FILES['blog_new_upload']);
+        // if(strpos($_FILES['blog_new_upload']['type'],'image') !== 0)
+            // unset($_FILES['blog_new_upload']);
         
         \App\Uploader::i()->saveFromPOST();
         $names = \App\Uploader::i()->getNames();
 
-        if(isset($names['blog_new_upload']))
-            $values['image'] = $names['blog_new_upload'][0];
+        // if(isset($names['blog_new_upload']))
+            // $values['image'] = $names['blog_new_upload'][0];
         
         if(isset($names['blog_new_attachments'])){
             $files = array_merge([$values['files']],$names['blog_new_attachments']);

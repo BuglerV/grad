@@ -1,0 +1,24 @@
+<br><hr><br>
+{% for module in modules %}
+{{ module.name }} 
+{% if module.settings %}
+<a href="/admin/setting/{{ module.name }}" class="admin_button">{{ translate('admin_settings') }}</a>
+{% endif %}
+<br>
+{% if module.windows %}
+Окна: {% for window in module.windows %}<span style="color:{% if window.enabled %}green{% else %}red{% endif %};">{{ window.name }}</span> {% endfor %}<br>
+{% endif %}
+{% if module.crud %}
+Контент: 
+<a href="/admin/{{ module.name }}/new" class="admin_button">{{ translate('crud_new') }}</a>
+<a href="/admin/{{ module.name }}/list" class="admin_button">{{ translate('crud_all') }}</a><br>
+{% endif %}
+{% if module.I18n %}
+Перевод: 
+{% for file in module.I18n %}
+<a href="/admin/i18n/{{ module.name }}/{{ file.domain }}/{{ file.lang }}" class="admin_button">{{ file.domain }}.{{ file.lang }}</a>
+{% endfor %}
+<br>
+{% endif %}
+<br><hr><br>
+{% endfor %}

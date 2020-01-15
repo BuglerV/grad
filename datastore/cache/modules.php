@@ -16,5 +16,6 @@ return array (
   ),
   'core' => 
   array (
+    'Time' => 1,
   ),
 );

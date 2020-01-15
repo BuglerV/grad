@@ -18,6 +18,10 @@ return [
         'order' => 1,
         'windows' => [
             [
+                'name' => 'Modules\\core\\windows\\Time',
+                'params' => ''
+            ],
+            [
                 'name' => 'Modules\\events\\windows\\Event',
                 'params' => ''
             ]

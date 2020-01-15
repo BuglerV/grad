@@ -28,7 +28,8 @@ class Output extends Patterns\Singleton
     }
     
     protected function getTitle(){
-        return $this->title . ' | ' . (Settings::i()->siteName ?? '');
+        $name = Settings::i()->siteName;
+        return $this->title ? $this->title . ' | ' . $name : $name;
     }
     
     public function addJsVar($name,$value)
@@ -44,7 +45,7 @@ class Output extends Patterns\Singleton
             return $this->output;
         
         if($this->ckeditor)
-            $this->js[] = 'ckeditor/ckeditor.js';
+            $this->js[] = 'ckeditor/ckeditor.js?t=' . microtime(true);
         
         if(\App\User::i()->role == 'admin')
             $this->addJsVar('csrf',\App\User::i()->createCsrfToken());

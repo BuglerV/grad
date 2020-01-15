@@ -23,6 +23,10 @@ font-size:0.8em;
     border:1px solid black !important;
 }
 
+.clear{
+    clear:both;
+}
+
 
 #container{
     max-width:1500px;
@@ -61,8 +65,16 @@ footer{
     font-size:30px;
 }
 
+.mb05{
+    margin-bottom:0.5em;
+}
 
 
+.radio_info{
+    text-align:center;
+    color:black;
+    margin-bottom:0.5em;
+}
 
 
 
@@ -98,6 +110,9 @@ footer{
 }
 .window{
     margin:0 3px;
+}
+.window *{
+    max-width:100% !important;
 }
 
 
@@ -168,6 +183,11 @@ button:hover{
     cursor:pointer;
     color: #faa;
 }
+
+#blog-view img{
+    max-width:100%;
+}
+
 .blog_tag:hover{
     text-decoration:underline;
 }
@@ -179,11 +199,11 @@ button:hover{
     font-size:1.5em;
 }
 
-.blog_open{
+.blog_open, .events_open{
     cursor:pointer;
     color:yellow;
 }
-.blog_open:hover{
+.blog_open:hover, .events_open:hover{
     text-decoration:underline;
 }
 
@@ -248,4 +268,35 @@ button:hover{
 .quote_close{
     left:-0.15em;
     bottom:0px;
+}
+
+
+#events_cal_container{
+    text-align:center;
+    max-width:20em;
+}
+.events_cal{
+    display:grid;
+    grid-template-columns:repeat(7,1fr);
+}
+.cal_week_day{
+    color:grey;
+}
+.cal_day{
+    
+}
+.cal_today{
+    background-color:green;
+}
+.cal_checked{
+    border:1px solid red;
+}
+
+
+#core_timer{
+    font-size:4em;
+    border:1px solid white;
+    border-radius:1em;
+    display:inline-block;
+    padding:0 0.3em;
 }

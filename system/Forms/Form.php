@@ -127,7 +127,7 @@ class Form
     {
         $elems = [];
         
-        if(!$this->options['csrf'] OR $this->options['csrf']==true)
+        if(!isset($this->options['csrf']) OR $this->options['csrf']==true)
             $this->hiddens[] = [
                 'name' => 'csrf',
                 'value' => \App\User::i()->createCsrfToken()
@@ -137,7 +137,7 @@ class Form
             $elems[] = $element;
         }
         
-        $elems[] = new ButtonType(($this->id ? $this->id . '_' : '') .'submit',\App\I18n::i()->translate('submit',['domain'=>'form']));
+        $elems[] = new ButtonType(($this->id ? $this->id . '_' : '') .'submit',\App\I18n::i()->translate('submit',['domain'=>'form'],false));
         
         $res = \App\Twig::i()->render('form/form_global.twig',[
             'id' => $this->id,

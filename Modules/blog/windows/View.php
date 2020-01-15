@@ -44,17 +44,17 @@ class View extends AbstractWindow
             $tag = 'Поиск';
         }
         
-        $time = time();
+        $time = date('Y-m-d\TH:i:s',time());
         if(!\App\User::i()->isLogged() OR \App\User::i()->role != 'admin'){
             // Только открытые...
             $where[] = 'is_opened = 1';
             // Для отображения только новых постов...
-            $where[] = 'pubdate < ' . $time;
+            $where[] = 'pubdate < "' .$time. '"';
         }
         
         $where = $where ? ' WHERE ' . implode(' AND ',$where) : '' ;
         $query = sprintf('SELECT count(*) FROM blog_posts%s;',$where);
-        
+
         $stmt = Db::i()->prepare($query);
         $stmt->execute($bind);
         $post_count = $stmt->fetch()[0];
@@ -99,10 +99,7 @@ class View extends AbstractWindow
         ]);
         
         // Опции...
-        $options = [];
-        foreach(\Modules\blog\src\Models\Post::$searchedRows as $key => $value){
-            $options[] = ['name'=>$key,'read'=>$value];
-        }
+        $options = ['title','author','text','tags'];
 
         // Отображаю...
         return \App\Twig::i()->render('blog_main.twig',[

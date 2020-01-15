@@ -1,33 +1,32 @@
 {% if todays %}
-<h>Сегодня</h>
+<h>{{ translate('events_main_today') }}</h>
 {% for today in todays %}
-    {{ time(today.date,'H:i') }}
+    {{ time(today.time,'H:i') }}
     {{ today.title }}<br>
+{% if today.text %}
+    {{ today.text | raw }}
+{% endif %}
+{% if today.look %}
+      <div hidden>{{ today.look | raw }}</div><span class="events_open" onclick="this.previousElementSibling.toggleAttribute('hidden');">{{ translate('events_hide_show') }}</span><br>
+{% endif %}
 {% if user('role') == 'admin' %}
 <div class="blog_info">
-  <a href="/admin/events/change/{{ today.id }}" class="admin_button">Редактировать</a>
+  <a href="/admin/events/change/{{ today.id }}" class="admin_button">{{ translate('crud_change') }}</a>
 </div>
 {% endif %}
 {% endfor %}
 {% endif %}
 
-<h>Анонсы</h>
-{% if tomorrows %}
-{% for tomorrow in tomorrows %}
-    {{ time(tomorrow.date,'d-m-Y H:i') }}
-    {{ tomorrow.title }}<br>
-{% if user('role') == 'admin' %}
-<div class="blog_info">
-  <a href="/admin/events/change/{{ tomorrow.id }}" class="admin_button">Редактировать</a>
+<h>{{ translate('events_main_title') }}</h>
+{% if calendar %}
+{{ calendar | raw }}
+{% endif %}
+<div id="events_future">
+{% include 'events_wills.twig' %}
 </div>
-{% endif %}
-{% endfor %}
-{% else %}
-<span>Событий нет...</span>
-{% endif %}
 {% if user('role') == 'admin' %}
   <span class="right">
-    <a href="/admin/events/list/" class="admin_button">Все</a>
-    <a href="/admin/events/new/" class="admin_button">Добавить</a>
+    <a href="/admin/events/list/" class="admin_button">{{ translate('crud_all') }}</a>
+    <a href="/admin/events/new/" class="admin_button">{{ translate('crud_new') }}</a>
   </span>
 {% endif %}

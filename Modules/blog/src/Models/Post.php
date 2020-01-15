@@ -5,15 +5,9 @@ namespace Modules\blog\src\Models;
 class Post extends \App\Models\Model
 {
     protected $table = 'blog_posts';
-    
-    public static $searchedRows = [
-        'title' => 'Заголовок',
-        'author' => 'Автор',
-        'text' => 'Текст',
-        'tags' => 'Теги'
-    ];
+
     protected static $loadedRows = [
-        'title', 'author', 'text', 'preview', 'files', 'image', 'tags', 'is_opened', 'pubdate'
+        'title', 'author', 'text', 'preview', 'files', 'tags', 'is_opened', 'pubdate'
     ];
     
     protected function setter_pubdate($value)

@@ -47,7 +47,7 @@ class Settings extends Patterns\Singleton
      */
     public function __set($name,$value)
     {
-        if(isset($this->data[$name]) AND $this->data[$name] !== $value){
+        if(!isset($this->data[$name]) OR $this->data[$name] !== $value){
             $this->data[$name] = $value;
             $this->change[$name] = $value;
         }
@@ -62,7 +62,7 @@ class Settings extends Patterns\Singleton
     {
         if(!$settings = $settings ?? $this->change)
             return;
-        
+
         $query = 'UPDATE settings SET `value` = ? where `key` = ?';
         $stm = Db::i()->prepare($query);
 

@@ -1,12 +1,12 @@
 <div class="paginator" data-module="{{ module }}">
 {% if page > 1 %}
-    <button data-type="{{ jsMethod }}" data-page="1">Первая</button>
-    <button data-type="{{ jsMethod }}" data-page="{{ page - 1 }}">Пред.</button>
+    <button data-type="{{ jsMethod }}" data-page="1">{{ translate('paginator_first','paginator') }}</button>
+    <button data-type="{{ jsMethod }}" data-page="{{ page - 1 }}">{{ translate('paginator_prev','paginator') }}</button>
 {% endif %}
     <input type="number" min="1" max="{{ pages }}" value="{{ page }}" onchange="if(+this.value < +this.min){this.value = this.min;} if(+this.value >= +this.max){console.log(this.value + ' - ' + this.max);console.log(this.value > this.max);this.value = this.max} this.nextElementSibling.dataset['page'] = this.value;">
-    <button data-type="{{ jsMethod }}" data-page="{{ page }}">Перейти</button>
+    <button data-type="{{ jsMethod }}" data-page="{{ page }}">{{ translate('paginator_go','paginator') }}</button>
 {% if page < pages %}
-    <button data-type="{{ jsMethod }}" data-page="{{ page + 1 }}">След.</button>
-    <button data-type="{{ jsMethod }}" data-page="{{ pages }}">Последняя ({{ pages }})</button>
+    <button data-type="{{ jsMethod }}" data-page="{{ page + 1 }}">{{ translate('paginator_next','paginator') }}</button>
+    <button data-type="{{ jsMethod }}" data-page="{{ pages }}">{{ translate('paginator_last','paginator') }} ({{ pages }})</button>
 {% endif %}
 </div>

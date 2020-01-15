@@ -1,19 +1,19 @@
 <div data-role="navigator" id="blog-view">
-    <h>Новости</h>
+    <h>{{ translate('blog_main_title') }}</h>
       <div class="blog_search">
 {% if user('role') == 'admin' %}
       <span class="right">
-        <a href="admin/blog/list/" class="admin_button">Все</a>
-        <a href="admin/blog/new/" class="admin_button">Добавить</a>
+        <a href="admin/blog/list/" class="admin_button">{{ translate('crud_all') }}</a>
+        <a href="admin/blog/new/" class="admin_button">{{ translate('crud_new') }}</a>
       </span>
 {% endif %}
-          <input type="text" name="search" value="{% if blog_search.search %}{{ blog_search.search }}{% endif %}" placeholder="Поиск">
+          <input type="text" name="search" value="{% if blog_search.search %}{{ blog_search.search }}{% endif %}" placeholder="{{ translate('blog_search_placeholder') }}">
           <select name="row" id="blog_search_row">
 {% for option in options %}
-            <option value="{{ option.name }}"{% if option.name == blog_search.row %} selected{% endif %}>{{ option.read }}</option>
+            <option value="{{ option }}"{% if option == blog_search.row %} selected{% endif %}>{{ translate('blog_search_' ~ option) }}</option>
 {% endfor %}
           </select>
-          <button data-type="blog_search">Далее</button>
+          <button data-type="blog_search">{{ translate('blog_search_go') }}</button>
       </div>
       <br><hr><br>
       <span class="right">

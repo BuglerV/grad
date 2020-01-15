@@ -57,6 +57,9 @@ trait CradTraitController
             
             $this->model = new $modelClass;
             
+            if(method_exists($this,'beforeNew'))
+                $this->beforeNew();
+            
             if(method_exists($this,'beforeSaving'))
                 $values = $this->beforeSaving($values);
             
@@ -66,7 +69,7 @@ trait CradTraitController
             header('Location: /admin/' . $this->module . '/list');
         }
 
-        \App\Output::i()->output = "<h>Добавить {$this->textName}</h>" . $form;
+        \App\Output::i()->output = '<a class="admin_button" href="/admin/'. $this->module .'/list">'. \App\I18n::i()->translate('crud_all') .'</a><h>Добавить '. \App\I18n::i()->translate($this->module . '_main_whom') .'</h>' . $form;
     }
     
     public function deleteAction($arguments)
@@ -119,9 +122,9 @@ trait CradTraitController
         
         if(method_exists($this,'beforeOutput'))
             $values = $this->beforeOutput($values);
-        
+
         $form->setValues($values);
         
-        \App\Output::i()->output = "<h>Редактируем {$this->textName}</h>" . $form;
+        \App\Output::i()->output = '<a class="admin_button" href="/admin/'. $this->module .'/list">'. \App\I18n::i()->translate('crud_all') .'</a><h>Редактируем '. \App\I18n::i()->translate($this->module . '_main_whom') .'</h>' . $form;
     }
 }

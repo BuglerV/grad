@@ -1,0 +1,13 @@
+<div style="text-align:center;margin-bottom:0.5em;">
+    <div id="core_timer">{{ time(time,'G:i:s') }}</div>
+</div>
+<script>
+      var timer = setInterval(function(){
+          var data = new Date();
+          var res = data.getHours() + ':';
+          res += data.getMinutes() > 9 ? data.getMinutes() : '0' + data.getMinutes() ;
+          res += ':';
+          res += data.getSeconds() > 9 ? data.getSeconds() : '0' + data.getSeconds() ;
+          document.getElementById('core_timer').innerText = res;
+      },1000);
+</script>

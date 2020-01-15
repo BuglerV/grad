@@ -30,9 +30,18 @@ class Store extends Patterns\Singleton
     public function __set($fileName,$fileData)
     {
         $fileName = STORE . '/cache/' . $fileName . '.php';
-        $fileData = "<?php\n\nreturn ".var_export($fileData,true).';';
+        $fileData = "<?php\n\nreturn ".var_export($fileData,true).";\n\n//Stored " . date('Y-m-d H:i:s',time());
         
         file_put_contents($fileName,$fileData);
+    }
+    
+    /**
+     *
+     */
+    public function __isset($fileName)
+    {
+        $fileName = STORE . '/cache/' . $fileName . '.php';
+        return is_file($fileName);
     }
 
     /**

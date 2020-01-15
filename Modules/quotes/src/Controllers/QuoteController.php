@@ -10,7 +10,6 @@ class QuoteController extends ProtectedController
     use CRAD;
     
     protected $prefix = 'quote_';
-    protected $textName = 'цитату';
     
     protected $table = 'quotes';
     protected $rowsForListing = ['*'];
@@ -22,7 +21,7 @@ class QuoteController extends ProtectedController
     {
         parent::__construct();
         
-        \App\Output::i()->title = 'Цитаты';
+        \App\Output::i()->title = \App\I18n::i()->translate('quotes_main_title');
     }
     
     protected function _getForm()

@@ -16,18 +16,20 @@ abstract class AbstractType implements TypeInterface
     public function __construct($name,$value=null,$classes=[],$attributes=[],$options=[])
     {
         $this->name = $name;
-        $this->setValue($value);
+        if($value) $this->setValue($value);
         $this->classes = $classes;
         $this->attributes = $attributes;
         $this->options = $options;
     }
     
     public function __toString(){
-        $info = I18n::i()->isset($this->getName().'_info','form') ?
+        $info = (!\App\Env::i()->formNotTranslate AND I18n::i()->isset($this->getName().'_info','form') ) ?
            I18n::i()->translate($this->getName().'_info',['domain'=>'form']) : '';
 
+        $title = \App\Env::i()->formNotTranslate ? $this->getName() : I18n::i()->translate($this->getName(),['domain'=>'form']);
+
         return \App\Twig::i()->render('form/form_' . $this->formType . '.twig',[
-            'title' => I18n::i()->translate($this->getName(),['domain'=>'form']),
+            'title' => $title,
             'name' => $this->name,
             'value' => $this->value,
             'classes' => implode(' ',$this->classes),

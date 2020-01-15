@@ -109,6 +109,7 @@
   
   system.eventType_core_sound_load = function(target){
       system.player.set(target.dataset['source']);
+      document.getElementById('radio_rawdata').innerText = target.innerText;
   }
   
   system.eventType_core_quote = function(target){
@@ -135,11 +136,17 @@
           }
       });
       
+      if(system.player){
+          system.player.start_load();
+      }
+      
       if(typeof(CKEDITOR) != 'undefined'){
           var elements = document.querySelectorAll('textarea[data-editor]');
           if(elements)
               elements.forEach(function(element){
-                  CKEDITOR.replace(element.name);
+                  CKEDITOR.replace(element.name, {
+                      filebrowserUploadUrl: '/uploader.php'
+                  });
               });
       }
   };

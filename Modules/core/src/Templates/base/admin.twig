@@ -17,6 +17,11 @@
         <div id="container">
 
 <div id="body">
+{% if user('role') == 'admin' %}
+<a href="/admin" class="admin_button">{{ translate('admin_admin') }}</a>
+<a href="/" class="admin_button">{{ translate('admin_home') }}</a>
+<a href="/admin/logout" class="admin_button">{{ translate('admin_logout') }}</a><br>
+{% endif %}
 {% block body %}
 {{ body|raw }}
 {% endblock %}

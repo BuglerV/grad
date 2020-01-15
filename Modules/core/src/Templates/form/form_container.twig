@@ -3,7 +3,7 @@
           <div class="form-error form-body">* {{ error }}</div>
 {% endif %}
 {% if title %}
-        <div class="form-title"><b>{% if options.require %}* {% endif %}{{ title }}</b></div>
+        <div class="form-title"><b>{% if options.require %}* {% endif %}{{ title | raw }}</b></div>
 {% endif %}
         <div class="form-body">
 {% block element %}
@@ -13,6 +13,6 @@
 {% endblock %}
         </div>
 {% if info %}
-          <div class="form-info form-body">{{ info }}</div>
+          <div class="form-info form-body">{{ info | raw }}</div>
 {% endif %}
     </div>

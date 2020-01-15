@@ -21,9 +21,9 @@ class Locator extends Patterns\Singleton
         $this->locator = new FileLocator($dirs);
     }
     
-    public function locate($name,$first = false){
+    public function locate($name,$first=false,$module=null){
         try{
-            $files = $this->locator->locate($name,null,$first);
+            $files = $this->locator->locate($name,$module,$module?true:$first);
         }
         catch(FileLocatorFileNotFoundException $e){
             return [];

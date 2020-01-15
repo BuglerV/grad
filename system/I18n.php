@@ -9,9 +9,13 @@ class i18n extends Patterns\Singleton
     protected $defaultLang;
     protected $defaultDomain;
     
+    protected $debug;
+    
     protected function __construct(){
         $this->defaultLang = 'ru';
         $this->defaultDomain = 'main';
+        
+        $this->debug = \App\Settings::i()->i18n_debug;
     }
     
     public function translate($word,$options = []){
@@ -22,7 +26,10 @@ class i18n extends Patterns\Singleton
         }
         
         $result = $this->data[$domain][$lang][$word] ?? $word;
-        
+
+        if($this->debug)
+            $result = "~$result~";
+
         return $result;
     }
     

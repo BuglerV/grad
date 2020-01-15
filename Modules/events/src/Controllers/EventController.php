@@ -10,7 +10,6 @@ class EventController extends ProtectedController
     use CRAD;
     
     protected $prefix = 'event_';
-    protected $textName = 'событие';
     
     protected $table = 'events';
     protected $rowsForListing = ['*'];
@@ -22,16 +21,24 @@ class EventController extends ProtectedController
     {
         parent::__construct();
         
-        \App\Output::i()->title = 'Анонсы';
+        \App\Output::i()->title = \App\I18n::i()->translate('events_main_title');
     }
     
     protected function _getForm()
     {
         $form = new \App\Forms\Form('event_form');
-        $form->add(new \App\Forms\TextType('event_title','',[],[],['max_length'=>'255','require'=>true]));
-        $form->add(new \App\Forms\DateTimeType('event_date'),'',[],[],['require'=>true]);
-        
+        $form->add(new \App\Forms\TextType('event_title','',[],[],['require'=>true]));
+        $form->add(new \App\Forms\CkeditorType('event_text'));
+        $form->add(new \App\Forms\CkeditorType('event_look'));
+        $form->add(new \App\Forms\DateTimeType('event_date','',[],[],['type'=>'date','require'=>true]));
+        $form->add(new \App\Forms\DateTimeType('event_time','',[],[],['type'=>'time','require'=>true]));
+
         return $form;
+    }
+    
+    protected function beforeNew()
+    {
+        unset(\App\Store::i()->events);
     }
 
 }

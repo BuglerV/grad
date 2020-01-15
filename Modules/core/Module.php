@@ -2,9 +2,9 @@
 
 namespace Modules\core;
 
-use App\Modules\ModuleInterface;
+use App\Modules\AbstractModule;
 
-class Module implements ModuleInterface
+class Module extends AbstractModule
 {
     public function boot(){
         \App\Twig::i()->addFunction('window',function($name,$params){
@@ -17,12 +17,17 @@ class Module implements ModuleInterface
             return $class->manage();
         });
         
+        \App\Twig::i()->addFunction('translate',function($word,$domain=null,$lang=null){
+            return \App\I18n::i()->translate($word,['domain'=>$domain,'lang'=>$lang]);
+        });
+        
         \App\Twig::i()->addFunction('setting',function($name){
             return \App\Settings::i()->$name;
         });
         
         \App\Twig::i()->addFunction('time',function($ts,$format){
-            return date($format,$ts);
+            \App\DateTime::i()->set($ts);
+            return \App\DateTime::i()->format($format);
         });
         
         \App\Twig::i()->addFunction('user',function($name){

@@ -1,36 +1,31 @@
    <div class="blog_post" data-id="{{ post.id }}"{% if post.after %} blogAfter{% elseif not post.is_opened %} blogClosed{% endif %}>
-{% if post.image %}
-       <div class="blog_image left">
-         <img src="{{ post.image }}">
-       </div>
-{% endif %}
-       <b>{{ post.title }}</b><br>
-       <span>{{ post.preview | raw }}</span>
+       <h3>{{ post.title }}</h3>
+       <div>{{ post.preview | raw }}</div>
 {% if post.text %}
-      <span hidden>{{ post.text | raw }}</span> <span class="blog_open" onclick="this.previousElementSibling.toggleAttribute('hidden');">Показать/Скрыть</span>
+      <div hidden>{{ post.text | raw }}</div><span class="blog_open" onclick="this.previousElementSibling.toggleAttribute('hidden');">{{ translate('blog_hide_show') }}</span><br>
 {% endif %}
 {% if post.files %}
 {% for file in post.files %}
-      <div data-type="core_sound_load" data-source="{{ file }}" class="blog_tag">{{ sound_name(file) }}</div>
+      <span data-type="core_sound_load" data-source="{{ file }}" class="blog_tag">{{ sound_name(file) }}</span><br>
 {% endfor %}
 {% endif %}
       <div class="blog_info">
-        <span class="blog_posted">{% if post.after %}Будет опубликовано{% else %}Опубликовано{% endif %}: {{ time(post.pubdate,'H:i d-m-Y') }}</span>
+        <span class="blog_posted">{% if post.after %}{{ translate('blog_will_post') }}{% else %}{{ translate('blog_now_post') }}{% endif %}: {{ post.pubdate }}</span>
 {% if post.author %}
-        <span class="blog_author"> Автор: 
+        <span class="blog_author"> {{ translate('blog_post_author') }}: 
           <span class="blog_tag" data-type="blog_tag" data-name="author">{{ post.author }}</span>
         </span>
 {% endif %}
 {% if post.tags %}
         <br>
-        <span class="blog_tags_block">Теги: 
+        <span class="blog_tags_block">{{ translate('blog_post_tags') }}: 
 {% for tag in post.tags %}
           <span data-type="blog_tag" class="blog_tag" data-name="tag">{{ tag }}</span>
 {% endfor %}
         </span>
 {% endif %}
 {% if user('role') == 'admin' %}
-      <br><span class="admin_button" data-type="blog_open">{% if post.is_opened %}Скрыть{% else %}Показать{% endif %}</span> <a href="/admin/blog/change/{{ post.id }}" class="admin_button">Редактировать</a>
+      <br><span class="admin_button" data-type="blog_open">{% if post.is_opened %}Скрыть{% else %}Показать{% endif %}</span> <a href="/admin/blog/change/{{ post.id }}" class="admin_button">{{ translate('crud_change') }}</a>
 {% endif %}
       </div>
     </div>
