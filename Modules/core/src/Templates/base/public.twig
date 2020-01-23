@@ -21,11 +21,6 @@
 {% endblock %}
 </header>
 
-{% if user('role') == 'admin' %}
-<a class="admin_button" href="/admin/">{{ translate('admin_admin') }}</a>
-<a class="admin_button" href="/admin/logout">{{ translate('admin_logout') }}</a>
-{% endif %}
-
 <div id="body">
 {% block body %}
 {{ body|raw }}

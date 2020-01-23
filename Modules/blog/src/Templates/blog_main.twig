@@ -20,8 +20,8 @@
 {% if tag %}
         <span class="blog_tag" data-type="blog_home">{{ tag }}</span>
 {% endif %}
-        <span class="blog_tag" data-type="blog_history" data-method="back">&lt;</span>
-        <span class="blog_tag" data-type="blog_history" data-method="forward">></span>
+        <span class="blog_tag" data-type="blog_history" data-method="back">{{ translate('blog_history_prev') }}</span>
+        <span class="blog_tag" data-type="blog_history" data-method="forward">{{ translate('blog_history_next') }}</span>
       </span>
       {{ paginator|raw }}
       <br><hr><br>

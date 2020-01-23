@@ -107,11 +107,6 @@
       system.blog.ajax('window/blog/View');
   }
   
-  system.eventType_core_sound_load = function(target){
-      system.player.set(target.dataset['source']);
-      document.getElementById('radio_rawdata').innerText = target.innerText;
-  }
-  
   system.eventType_core_quote = function(target){
       var data = {};
       

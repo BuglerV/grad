@@ -1,6 +1,11 @@
 <?php
 
 return array (
+  'core' => 
+  array (
+    'Time' => 1,
+    'Link' => 1,
+  ),
   'blog' => 
   array (
     'Post' => 1,
@@ -14,8 +19,6 @@ return array (
   array (
     'Event' => 1,
   ),
-  'core' => 
-  array (
-    'Time' => 1,
-  ),
 );
+
+//Stored 2020-01-16 19:44:04

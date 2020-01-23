@@ -19,4 +19,7 @@ return [
     'blog_search_author' => 'Автор',
     'blog_search_tags' => 'Теги',
     'blog_search_text' => 'Текст',
+    
+    'blog_history_next' => '>',
+    'blog_history_prev' => '<',
 ];

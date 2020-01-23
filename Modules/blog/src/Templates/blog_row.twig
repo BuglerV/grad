@@ -4,11 +4,11 @@
 {% if post.text %}
       <div hidden>{{ post.text | raw }}</div><span class="blog_open" onclick="this.previousElementSibling.toggleAttribute('hidden');">{{ translate('blog_hide_show') }}</span><br>
 {% endif %}
-{% if post.files %}
+{% if post.files %}{% if setting('radio_enabled') %}
 {% for file in post.files %}
       <span data-type="core_sound_load" data-source="{{ file }}" class="blog_tag">{{ sound_name(file) }}</span><br>
 {% endfor %}
-{% endif %}
+{% endif %}{% endif %}
       <div class="blog_info">
         <span class="blog_posted">{% if post.after %}{{ translate('blog_will_post') }}{% else %}{{ translate('blog_now_post') }}{% endif %}: {{ post.pubdate }}</span>
 {% if post.author %}

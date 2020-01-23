@@ -6,6 +6,8 @@ return array (
   'djName' => 'Черепаха',
   'djName2' => 'dfsfsdf',
   'i18n_debug' => false,
+  'radio_enabled' => false,
+  'window_links' => '<p>google.com</p><p>yandex.ru</p><p>regionofmafia.ru</p><p>youtube.com</p>',
 );
 
-//Stored 2020-01-15 00:32:52
+//Stored 2020-01-22 12:05:10

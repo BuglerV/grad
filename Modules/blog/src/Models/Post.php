@@ -6,6 +6,10 @@ class Post extends \App\Models\Model
 {
     protected $table = 'blog_posts';
 
+    public static $searchedRows = [
+        'title', 'author', 'text', 'tags'
+    ];
+
     protected static $loadedRows = [
         'title', 'author', 'text', 'preview', 'files', 'tags', 'is_opened', 'pubdate'
     ];

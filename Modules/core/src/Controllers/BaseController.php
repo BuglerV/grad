@@ -8,8 +8,11 @@ class BaseController
         $method = 'page/main';
         $columns = \App\Store::i()->$method;
         
+        $first = array_shift($columns);
+        
         \App\Output::i()->output = \App\Twig::i()->render('core_page_base.twig',[
-            'columns' => $columns
+            'columns' => $columns,
+            'first' => $first
         ]);
         \App\Output::i()->title = 'Главная';
     }

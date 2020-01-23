@@ -78,30 +78,12 @@ footer{
 
 
 
-
-/* Навигация */
-#rr{
-    margin-top:0.3em;
-    background-color:black;
-    color:white;
-}
-.rr_r{
-    flex-basis:50px;
-    flex-grow: 1;
-    text-align: center;
-}
-
-
-
-
-
-/* Разбиение на колонки с помощью ФЛЕКСа */
-.flex-container,#rr{
+nav{
     display:flex;
-    justify-content:center;
-    align-items:stretch;
-    
+    justify-content:space-around;
 }
+
+
 .column{
     display:flex;
     flex-direction:column;
@@ -160,6 +142,7 @@ button:hover{
 
 .right{
     float:right;
+    text-align:right;
 }
 
 .left{

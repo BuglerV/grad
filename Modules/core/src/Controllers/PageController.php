@@ -17,6 +17,7 @@ class PageController
         \App\Output::i()->output = \App\Twig::i()->render('core_page_base.twig',[
             'columns' => $columns
         ]);
+        
         \App\Output::i()->title = I18n::i()->translate('Title');
     }
 }

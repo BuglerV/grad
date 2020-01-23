@@ -37,6 +37,12 @@ class AdminController extends ProtectedAbstractController
             $form->add(new \App\Forms\TextType($key,$value));
         }
         
+        if($form->isSubmitted() AND $form->isValid()){
+            $fileData = "<?php\n\nreturn ".var_export($form->values(),true).";\n\n//Stored " . date('Y-m-d H:i:s',time());
+            
+            file_put_contents($fileName,$fileData);
+        }
+        
         \App\Output::i()->output = "<h>Перевод {$args['module']}-{$args['domain']}-{$args['lang']}</h>$form";
     }
 }

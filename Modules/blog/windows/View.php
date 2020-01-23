@@ -25,7 +25,7 @@ class View extends AbstractWindow
         // Проверяю наличие поиска...
         elseif($row = \App\Request::i()->get('row')){
             $search = \App\Request::i()->get('search');
-            foreach(\Modules\blog\src\Models\Post::$searchedRows as $one => $v){
+            foreach(\Modules\blog\src\Models\Post::$searchedRows as $one){
                 if($one === $row){
                     $where[] = "`$one` LIKE ?";
                     $bind[] = '%'.$search.'%';

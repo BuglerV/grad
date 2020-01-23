@@ -1,9 +1,30 @@
-<div class="flex-container">
-{% for column in columns %}
-<div class="column fb1" style="flex-grow:{{ column.flexgrow }};order:{{ column.order }};">
-{% for row in column.windows %}
+<div style="display:grid;grid-template-columns:250px 1fr;">
+
+  <div>
+{% if setting('radio_enabled') %}
+{% include('base/radio.twig') %}
+{% endif %}
+{% for row in first.windows %}
     <div class="window">{{ window(row.name,row.params)|raw }}</div>
 {% endfor %}
-</div>
+  </div>
+
+  <div>
+    <nav>
+{% if user('role') == 'admin' %}
+        <a class="admin_button" href="/admin/">{{ translate('admin_admin') }}</a>
+        <a class="admin_button" href="/admin/logout">{{ translate('admin_logout') }}</a>
+{% endif %}
+    </nav>
+      <div style="display:grid;grid-template-columns:2fr 1fr;">
+{% for column in columns %}
+         <div>
+{% for row in column.windows %}
+            <div class="window">{{ window(row.name,row.params)|raw }}</div>
 {% endfor %}
+         </div>
+{% endfor %}
+      </div>
+  </div>
+
 </div>

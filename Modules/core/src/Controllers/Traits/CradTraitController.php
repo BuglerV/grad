@@ -22,11 +22,15 @@ trait CradTraitController
         $page = sprintf('%d',\App\Request::i()->get('page') ?? 1);
         $page = $page < 1 ? 1 : ($page > $pages ? $pages : $page);
         
-        // Достаю посты...
-        $query = sprintf('SELECT %s FROM %s ORDER BY id DESC LIMIT %d,%d;',$rows,$table,($page - 1) * $max,$max);
-        $stmt = \App\Db::i()->query($query);
-        
-        $result = $stmt->fetchAll();
+        if($count){
+            // Достаю посты...
+            $query = sprintf('SELECT %s FROM %s ORDER BY id DESC LIMIT %d,%d;',$rows,$table,($page - 1) * $max,$max);
+            $stmt = \App\Db::i()->query($query);
+            
+            $result = $stmt->fetchAll();
+        }
+        else
+            $result = [];
         
         $paginator = \App\Twig::i()->render('core_paginator.twig',[
             'module' => $this->module,
