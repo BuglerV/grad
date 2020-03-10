@@ -7,5 +7,5 @@ return [
     'radio_minus' => 'VOL-',
     'radio_radio' => 'RADIO',
     
-    'radio_loading' => 'Загрузка...',
+    'radio_loading' => 'Загрузка...'
 ];

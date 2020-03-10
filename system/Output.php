@@ -10,6 +10,8 @@ class Output extends Patterns\Singleton
     
     public $isAjax;
     
+    public $onlyBody = false;
+    
     public $css = [];
     public $js = ['js/jquery-3.2.1.min.js'];
     public $meta = [];
@@ -29,6 +31,7 @@ class Output extends Patterns\Singleton
     
     protected function getTitle(){
         $name = Settings::i()->siteName;
+        return $name;
         return $this->title ? $this->title . ' | ' . $name : $name;
     }
     
@@ -41,7 +44,7 @@ class Output extends Patterns\Singleton
     }
     
     public function getOutput(){
-        if($this->isAjax)
+        if($this->isAjax OR $this->onlyBody)
             return $this->output;
         
         if($this->ckeditor)

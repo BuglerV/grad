@@ -1,6 +1,6 @@
-<div style="display:grid;grid-template-columns:250px 1fr;">
-
-  <div>
+<div>
+  <div class="column" style="width:250px; vertical-align:top;">
+    <img src="image/logo.jpg" style="width:250px;">
 {% if setting('radio_enabled') %}
 {% include('base/radio.twig') %}
 {% endif %}
@@ -8,17 +8,17 @@
     <div class="window">{{ window(row.name,row.params)|raw }}</div>
 {% endfor %}
   </div>
-
-  <div>
-    <nav>
+        <!-- <div style="font-size: 40px; text-align: center;">{{ setting('siteName') }}</div> -->
+  <div style="display: inline-block; width: calc(100% - 260px);">
 {% if user('role') == 'admin' %}
+    <nav>
         <a class="admin_button" href="/admin/">{{ translate('admin_admin') }}</a>
         <a class="admin_button" href="/admin/logout">{{ translate('admin_logout') }}</a>
-{% endif %}
     </nav>
-      <div style="display:grid;grid-template-columns:2fr 1fr;">
+{% endif %}
+      <div>
 {% for column in columns %}
-         <div>
+         <div class="column{% if loop.first %} first_column_line{% endif %}" style="width:{% if loop.first %}66%{% else %}33%{% endif %};vertical-align:top;">
 {% for row in column.windows %}
             <div class="window">{{ window(row.name,row.params)|raw }}</div>
 {% endfor %}

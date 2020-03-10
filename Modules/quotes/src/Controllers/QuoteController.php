@@ -28,7 +28,7 @@ class QuoteController extends ProtectedController
     {
         $form = new \App\Forms\Form('quote_form');
         $form->add(new \App\Forms\TextType('quote_author'));
-        $form->add(new \App\Forms\CkeditorType('quote_quote','',[],[],['max_length'=>'200','require'=>true]));
+        $form->add(new \App\Forms\CkeditorType('quote_quote','',[],[],['require'=>true]));
         
         return $form;
     }

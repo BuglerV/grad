@@ -18,5 +18,7 @@ return [
     'Nov' => 'Ноябрь',
     'Dec' => 'Декабрь',
     
-    'events_hide_show' => 'Подробнее'
+    'events_hide_show' => 'Подробнее',
+    
+    'events_no_one' => 'Событий нет...'
 ];

@@ -5,6 +5,7 @@ return array (
   array (
     'Time' => 1,
     'Link' => 1,
+    'Chat' => 1,
   ),
   'blog' => 
   array (
@@ -21,4 +22,4 @@ return array (
   ),
 );
 
-//Stored 2020-01-16 19:44:04
+//Stored 2020-03-08 09:26:23

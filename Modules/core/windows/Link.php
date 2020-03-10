@@ -11,7 +11,7 @@ class Link extends AbstractWindow
     }
     
     public function manage(){
-        $links = \App\Settings::i()->window_links;
+        $links = '<div class="window_body">' . \App\Settings::i()->window_links . '</div>';
         return $links ? '<h>'. \App\I18n::i()->translate('link_main_title',['domain'=>'link']) .'</h>' . $links : '';
     }
 }

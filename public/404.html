@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Ошибка | Радио</title>
+        <script src="js/jquery-3.2.1.min.js"></script>
+        <link rel="shortcut icon" href="/favico.png" sizes="32x32" type="image/png" />
+      <style>
+        footer{
+            margin-top: 0.5em;
+            border-top: 3px double black;
+            padding: 0.5em 3em;
+            color: #666;
+            text-align: right;
+        }
+        .window{
+            text-align: center;
+        }
+        button#home{
+            background-color: black;
+            color: white;
+            padding: 0.5em 3em;
+            border: none;
+            cursor: pointer;
+        }
+        .h100{
+            height:100px;
+        }
+        .marquee {
+         width: 100%;
+         margin: 0 auto;
+         white-space: nowrap;
+         overflow: hidden;
+         position:relative;
+         height:1.1em;
+        }
+        .marquee span {
+         display: inline-block;
+         position:absolute;
+         animation: marquee 15s linear infinite;
+        }
+
+        @keyframes marquee {
+         0%   {
+             left:100%;
+         }
+         100% {
+             left:-150%;
+         }
+        }
+        #radio_main{
+            width: 350px;
+            margin: 2em auto;
+            border: 3px double black;
+            padding: 1em 0;
+        }
+      </style>
+    </head>
+    <body>
+        <div id="container">
+<div id="body">
+    <div class="window">
+      <h1>На сервере произошла ошибка</h1>
+      <div>Попробуйте перезагрузить страницу. Если это не поможет, то зайдите позже. </div>
+      <br>
+      <a href="/"><button id="home">Перезагрузить</button></a>
+      
+<div class="h100">
+<div id="radio_main" class="window">
+    <audio id="player" src="http://46.105.180.202:8077/stream" autoplay></audio>
+  <div class="center">
+	<button onclick="system.player.play()">Пуск</button>
+	<button onclick="system.player.pause()">Пауза</button>
+	<button onclick="system.player.down()">Звук -</button>
+	<button onclick="system.player.up()">Звук +</button>
+  </div>
+    
+    <div class="marquee"><span id="radio_rawdata" class="radio_info">Загрузка...</span></div>
+</div>
+</div>
+
+<style>
+
+</style>
+
+<script>
+var system = system || {};
+system.player = {
+    source: 'http://46.105.180.202:8077/stream',
+    volume: 0.1,
+    phone: document.getElementById('player'),
+    radioInterval: 0,
+    lastSong: '',
+    play: function(){
+        system.player.phone.volume = system.player.volume;
+        system.player.phone.play();
+    },
+    pause: function(){
+        system.player.phone.pause();
+    },
+    down: function(){
+        if(system.player.volume == 0) return;
+        system.player.volume -= 0.1;
+        system.player.phone.volume = system.player.volume;
+    },
+    up: function(){
+        if(system.player.volume == 1) return;
+        system.player.volume += 0.1;
+        system.player.phone.volume = system.player.volume;
+    },
+    load_info: function(){
+        jQuery.ajax({
+          type: 'GET',
+          url: 'info_read.php',
+          dataType: 'json'
+      }).done(function(data){
+          if(data['type'] == 'error')
+              return;
+          data = data['data'][0];
+          if(system.player.lastSong == data['song'])
+              return;
+          
+          system.player.lastSong = data['song'];
+          document.getElementById('radio_rawdata').innerText = data['rawmeta'];
+      });
+    },
+    start_load: function(){
+        system.player.load_info();
+        system.player.radioInterval = setInterval(system.player.load_info,60000);
+    }
+};
+
+window.onload = function(){
+  system.player.phone.volume = system.player.volume;
+  system.player.start_load();
+}
+</script>
+      
+      
+    </div>
+</div>
+
+<footer>
+  Разработка сайта: Власов Сергей (BuglerV)
+</footer>
+        </div>
+    </body>
+</html>

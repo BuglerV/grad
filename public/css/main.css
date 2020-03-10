@@ -1,78 +1,135 @@
+/* Основное */
+
 *{
-    padding:0px;
-    margin:0px;
-    box-sizing:border-box;
+    padding: 0px;
+    margin: 0px;
+    box-sizing: border-box;
 }
 
-body{
-    background-color:white;
+@font-face{
+    font-family: bookos;
+    src: url(/test/bookos.otf);
 }
 
 a{
-    text-decoration:none;
+    text-decoration: none;
+    color: black;
+    font-weight:800;
 }
+
+li{
+    list-style: none;
+}
+
+body{
+    font-family: Arial bookos;
+    font-size:0.9em;
+    padding: 0;
+}
+
+footer{
+    margin-top: 0.5em;
+    border-top: 3px double black;
+    padding: 0.5em 3em;
+    color: #666;
+    text-align: right;
+}
+
+
+/* Доп. классы */
+
+.right{
+    float:right;
+    text-align:right;
+}
+
+.left{
+    float:left;
+}
+
+.clear{
+    clear:both;
+}
+.center{
+    text-align: center;
+    margin: auto;
+}
+
+.mb05{
+    margin-bottom:0.5em;
+}
+.mt05{
+    margin-top:0.5em;
+}
+
+.inline{
+    display: inline-block;
+}
+
+
+button[disabled]{
+    color:#ddd;
+}
+
+
+
+/* Для админов */
+.admin_button{
+    color: #3d3d3d;
+    font-weight: 800;
+}
+.admin_button:hover, a:hover{
+    cursor:pointer;
+    text-decoration:underline;
+}
+
+
+
+
+
+
+
+
+
 
 #body{
     width:100%;
-    margin:auto;
-    font-family: Arial;
-font-size:0.8em;
+    height:100%;
 }
 .cke{
     margin:0 10px 0 0 !important;
     border:1px solid black !important;
 }
 
-.clear{
-    clear:both;
+#container{
+    min-height: 100%;
+    margin:0 auto;
+    padding:0.25em;
+    background-color:#fff;
+    color: black;
 }
 
-
-#container{
-    max-width:1500px;
-    margin:0 auto;
-    background-color:black;
-    color:white;
+@media (min-width: 1300px){
+    #container{
+        padding-left: 6em;
+        padding-right: 6em;
+    }
 }
 
 h{
-    background-color:grey;
-    border-left:5px yellow solid;
-    padding:5px;
+    padding:2px 5px;
     display:block;
-    margin-bottom:3px;
-    color:black;
-    font-size: 20px;
+    margin: 5px 0 5px 0;
+    color: white;
+    font-weight: 800;
+    font-size: 1.2em;
+    border: none;
+    background-color: black;
 }
-
-footer{
-    height:75px;
-    background-color:yellow;
-    color:grey;
-    font-size:40px;
-    text-align:center;
-    line-height:75px;
-}
-
-#header{
-    background-image: url(https://images.gameru.net/image/direct/45ba94008c687d6.jpg);
-    background-position: 30% center;
-    background-size: 100%;
-    height: 150px;
-    color: yellow;
-    text-align:center;
-    line-height:75px;
-    font-size:30px;
-}
-
-.mb05{
-    margin-bottom:0.5em;
-}
-
 
 .radio_info{
     text-align:center;
-    color:black;
+    /* color:black; */
     margin-bottom:0.5em;
 }
 
@@ -81,20 +138,40 @@ footer{
 nav{
     display:flex;
     justify-content:space-around;
+    border-bottom: 3px double black;
 }
 
 
 .column{
-    display:flex;
-    flex-direction:column;
-    padding:6px 0;
-    flex-basis:0px;
+    display: inline-block;
 }
-.window{
-    margin:0 3px;
+.window, nav{
+    margin: 0.25em;
+    background-color: white;
 }
 .window *{
-    max-width:100% !important;
+    /* max-width:100% !important; */
+}
+.window_body, nav{
+    padding: 0.5em;
+}
+
+.window img, .window table{
+    max-width: calc(100% - 10px);
+}
+
+.window img{
+    border: 2px solid $ccc;
+    border-radius: 4px;
+    margin: 3px;
+}
+
+.first_column_line{
+    border-width: 3px;
+    border-color: black;
+    border-style: double;
+    border-top: none;
+    border-bottom: none;
 }
 
 
@@ -128,6 +205,12 @@ nav{
 
 /*  Элементы форм  */
 
+input, button, select{
+    height: 1.5em;
+}
+
+
+
 
 
 
@@ -140,31 +223,13 @@ button:hover{
 }
 
 
-.right{
-    float:right;
-    text-align:right;
-}
-
-.left{
-    float:left;
-}
-
-
-/* Для админов */
-.admin_button{
-    color: #99f;
-}
-.admin_button:hover{
-    cursor:pointer;
-    text-decoration:underline;
-}
-
 
 
 /*  Стили самого блога */
 .blog_tag{
     cursor:pointer;
-    color: #faa;
+    color: black;
+    font-weight:800;
 }
 
 #blog-view img{
@@ -184,7 +249,9 @@ button:hover{
 
 .blog_open, .events_open{
     cursor:pointer;
-    color:yellow;
+    color:#f8fff8;
+    font-weight: 800;
+    text-decoration:bold;
 }
 .blog_open:hover, .events_open:hover{
     text-decoration:underline;
@@ -207,10 +274,10 @@ button:hover{
     margin-top:0.5em;
 }
 [blogClosed]{
-    background-color:#300;
+    /* background-color:#300; */
 }
 [blogAfter]{
-    background-color:#003;
+    /* background-color:#003; */
 }
 
 
@@ -225,61 +292,70 @@ button:hover{
     padding:1em;
 }
 .quote_body{
-    width:90%;
     margin:auto;
-    padding: 1em;
+    padding: 0 1em;
     margin-bottom:1em;
     position:relative;
     text-align:center;
 }
-.quote_author{
-    float:right;
+
+[hide]{
+    display:none;
 }
-.clear{
-    clear:both;
+
+
+.paginator{
+    margin: auto;
 }
-.quote_open, .quote_close{
-    color:grey;
-    font-size:4em;
-    position:absolute;
-    letter-spacing:-0.15em;
+
+
+
+.event_list_time{
+    margin-top: 0.5em;
+    font-size: 1.2em;
+    color: white;
+    background-color: black;
+    padding: 0 2px;
 }
-.quote_open{
-    right:-0.1em;
-    top:-0.7em;
-}
-.quote_close{
-    left:-0.15em;
-    bottom:0px;
+.event_list_title{
+    
 }
 
 
 #events_cal_container{
     text-align:center;
-    max-width:20em;
+    max-width:210px;
+    margin:auto;
 }
 .events_cal{
+    /* display:-ms-grid; */
+    width: 100%;
     display:grid;
-    grid-template-columns:repeat(7,1fr);
+    grid-template-columns: repeat(7,1fr);
+    /* -ms-grid-columns:repeat(7,1fr); */
+    text-align: left;
 }
+.events_cal > div{
+    display: inline-block;
+    width: 30px;
+}
+
 .cal_week_day{
-    color:grey;
+    color:#bbb;
 }
-.cal_day{
-    
+.cal_day, .cal_week_day{
+    text-align: center;
 }
 .cal_today{
-    background-color:green;
+    background-color:grey;
 }
 .cal_checked{
-    border:1px solid red;
+    border:1px solid white;
 }
 
 
 #core_timer{
-    font-size:4em;
-    border:1px solid white;
-    border-radius:1em;
+    font-size:2em;
     display:inline-block;
     padding:0 0.3em;
 }

@@ -12,7 +12,7 @@ class DateTime extends Patterns\Singleton
     
     protected function __construct($time=null){
         $this->currentTime = time();
-        $this->ts = new \DateTime($time ?? null);
+        $this->ts = (new \DateTime($time ?? null))->setTimezone(new \DateTimeZone('+0300'));
     }
     
     public function format($format=null)
@@ -27,7 +27,7 @@ class DateTime extends Patterns\Singleton
     
     public function setToday($day = null)
     {
-        $this->ts = new \DateTime();
+        $this->ts = (new \DateTime($time ?? null))->setTimezone(new \DateTimeZone('+0300'));
         $this->ts->setTime(0,0,0,0);
         return $this;
     }
@@ -71,6 +71,7 @@ class DateTime extends Patterns\Singleton
     public function setDT($value)
     {
         $this->ts = new \DateTime($value);
+        $this->ts->setTimezone(new \DateTimeZone('+0300'));
     }
 
     

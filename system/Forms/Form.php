@@ -87,8 +87,14 @@ class Form
         
         $values = [];
         foreach($this->elements as $element){
-            if(is_subclass_of($element,'App\Forms\TypeInterface'))
-                $values[$element->getName()] = $element->getValue();
+            if(is_subclass_of($element,'App\Forms\TypeInterface')){
+                $value = $element->getValue();
+                
+                // trim values...
+                if(!isset($this->options['no_trim']) OR $this->options['no_trim'] == false) $value = trim($value);
+                
+                $values[$element->getName()] = $value;
+            }
         }
         return $values;
     }

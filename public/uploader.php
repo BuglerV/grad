@@ -4,7 +4,9 @@ define('BG',true);
 
 require '../bootstrap.php';
 
-if(\App\User::i()->role !== 'admin')
+$member = \App\User::i();
+
+if(!$member->isLogged() OR $member->role != 'admin' OR !$member->checkCsrf())
     exit();
 
 \App\Uploader::i()->saveFromPOST();

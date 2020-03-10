@@ -1,20 +1,26 @@
+  <br><hr>
 {% if tomorrows %}
 {% for tomorrow in tomorrows %}
-    {{ tomorrow.date }}
-    {{ time(tomorrow.time,'H:i') }}<br>
-    {{ tomorrow.title }}<br>
+    <div class="event_list_time inline center">
+        {{ time(tomorrow.time,'H:i') }}
+        {{ translate(time(tomorrow.date,'M')) | raw }}
+        {{ time(tomorrow.date,'d') }}
+    </div>
+    <div class="mt05"><b>{{ tomorrow.title }}</b></div>
 {% if tomorrow.text %}
-    {{ tomorrow.text | raw }}
+    <div class="mt05">{{ tomorrow.text | raw }}</div>
 {% endif %}
 {% if tomorrow.look %}
-      <div hidden>{{ tomorrow.look | raw }}</div><span class="events_open" onclick="this.previousElementSibling.toggleAttribute('hidden');">{{ translate('events_hide_show') }}</span><br>
+      <div class="mt05"><div hidden>{{ tomorrow.look | raw }}</div><span class="events_open" onclick="if(system.toggleAttr)system.toggleAttr(this.previousElementSibling,'hidden');">{{ translate('events_hide_show') }}</span></div>
 {% endif %}
 {% if user('role') == 'admin' %}
 <div class="blog_info">
   <a href="/admin/events/change/{{ tomorrow.id }}" class="admin_button">{{ translate('crud_change') }}</a>
 </div>
 {% endif %}
+  <br><hr>
 {% endfor %}
 {% else %}
-<span>Событий нет...</span>
+<br><span>{{ translate('events_no_one') }}</span><br>
+  <br><hr><br>
 {% endif %}

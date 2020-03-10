@@ -1,0 +1,9 @@
+<form id="chat_main_form" method="POST">
+  <input type="text" name="chat_author" placeholder="{{ translate('chat_form_author','chat') }}" value="{{ name }}">
+  <input type="text" name="chat_message" placeholder="{{ translate('chat_form_message','chat') }}">
+  <input type="hidden" name="csrf" value="{{ csrf }}">
+  <button onclick="system.chatSubmit();return false;">{{ translate('chat_form_submit','chat') }}</button>
+</form>
+{% if error %}
+<div class="mt05">{{ error }}</div>
+{% endif %}

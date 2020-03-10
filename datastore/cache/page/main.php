@@ -7,6 +7,10 @@ return [
         'order' => 1,
         'windows' => [
             [
+                'name' => 'Modules\\core\\windows\\Chat',
+                'params' => ''
+            ],
+            [
                 'name' => 'Modules\\quotes\\windows\\Quote',
                 'params' => ''
             ],

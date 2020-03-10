@@ -1,0 +1,15 @@
+<div class="one_chat" data-chatid="{{ message.id }}">
+    <b>[{{ time(message.datetime,'H:i') }}]
+{% if message.type == 'Admin' %}
+      <span style="color:red;">{{ message.name }}</span>:
+{% else %}
+      {{ message.name }}:
+{% endif %}
+    </b>{{ message.text }}
+{% if user('role') == 'admin' %}
+    <span class="admin_button" data-type="chatDel">{{ translate('chat_button_del','chat') }}</span>
+{% if message.type != 'Admin' %}
+    <span class="admin_button" data-type="chatDel" data-ban="1">{{ translate('chat_button_ban','chat') }}</span>
+{% endif %}
+{% endif %}
+  </div>

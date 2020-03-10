@@ -3,6 +3,7 @@
     <head>
         <meta charset="UTF-8">
         <title>{% block title %}{{ title }}{% endblock %}</title>
+        <link rel="shortcut icon" href="/favico.png" sizes="32x32" type="image/png" />
 {% for style in css %}
         <link href="{{ pathInfo }}{{ style }}" rel="stylesheet">
 {% endfor %}
@@ -18,13 +19,17 @@
 
 <div id="body">
 {% if user('role') == 'admin' %}
-<a href="/admin" class="admin_button">{{ translate('admin_admin') }}</a>
-<a href="/" class="admin_button">{{ translate('admin_home') }}</a>
-<a href="/admin/logout" class="admin_button">{{ translate('admin_logout') }}</a><br>
+<nav>
+  <a href="/admin" class="admin_button">{{ translate('admin_admin') }}</a>
+  <a href="/" class="admin_button">{{ translate('admin_home') }}</a>
+  <a href="/admin/logout" class="admin_button">{{ translate('admin_logout') }}</a>
+</nav>
 {% endif %}
+    <div class="window">
 {% block body %}
 {{ body|raw }}
 {% endblock %}
+    </div>
 </div>
 
         </div>

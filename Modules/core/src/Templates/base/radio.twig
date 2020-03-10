@@ -1,30 +1,53 @@
-<div id="radio_main">
+<div class="h100">
+<div id="radio_main" class="window">
     <div class="radio_info">{{ setting('djName') }}</div>
-    <audio id="player" src="http://46.105.180.202:8077/stream" autoplay></audio>
+    <audio id="player" src="{{ setting('radio_source') }}" autoplay></audio>
+  <div class="center">
 	<button onclick="system.player.play()">{{ translate('radio_play','radio') }}</button>
 	<button onclick="system.player.pause()">{{ translate('radio_pause','radio') }}</button>
 	<button onclick="system.player.down()">{{ translate('radio_minus','radio') }}</button>
 	<button onclick="system.player.up()">{{ translate('radio_plus','radio') }}</button>
 	<button onclick="system.player.radio()" disabled id="player_radio">{{ translate('radio_radio','radio') }}</button>
+  </div>
     
     <div class="marquee"><span id="radio_rawdata" class="radio_info">{{ translate('radio_loading','radio') }}</span></div>
     <div id="durationTrack"><div id="prevDuration"></div><div id="trackCount">0:00</div></div>
+    
+    <!-- <button id="radio_menu_open">menu</button> -->
+    <!-- <div class="window" id="radio_menu" hidden onclick="system.player.menu()">sdsdfsdfsd -->
+    <!-- dfsdfsfsfsdfs</div> -->
 </div>
-<div class="m100"></div>
+</div>
 
 <style>
 #radio_main{
-  position:fixed;
+  margin:0px;
   top:0px;
+  height:100px;
   left:0px;
-  background-color:yellow;
   padding:5px;
-  width:250px;
+  width: 250px;
+  <!-- width:calc(250px - 0.5em); -->
   height:100px;
   z-index:1000;
+  background-image: url('image/radio.bg.jpg');
+  color: white;
+  position: relative;
+}
+#radio_menu{
+  position: absolute;
+  top: 0px;
+  left: 255px;
+  padding: 5px;
+  background-color: #3D4758;
+}
+#radio_menu_open{
+  position: absolute;
+  bottom: -0.7em;
+  right: -0.7em;
 }
 
-.m100{
+.h100{
     height:100px;
 }
 
@@ -56,7 +79,7 @@
 }
 
 #prevDuration{
-    background-color:red;
+    background-color:#ccc;
     height:100%;
     width:0;
 }
@@ -84,7 +107,7 @@
 <script>
 var system = system || {};
 system.player = {
-    source: 'http://46.105.180.202:8077/stream',
+    source: '{{ setting('radio_source') }}',
     start: document.getElementById('player_radio'),
     volume: 0.1,
     phone: document.getElementById('player'),
@@ -122,7 +145,6 @@ system.player = {
     },
     set: function(source){
         system.player.phone.src = source;
-        system.player.phone.play();
         if(source == system.player.source){
             system.player.start.disabled = 1;
             system.player.start_load();
@@ -146,6 +168,7 @@ system.player = {
             };
             system.player.durationInterval = setInterval(system.player.trackUpdate,1000);
         }
+        system.player.phone.play();
     },
     load_info: function(){
         jQuery.ajax({
@@ -160,7 +183,7 @@ system.player = {
               return;
           
           system.player.lastSong = data['song'];
-          document.getElementById('radio_rawdata').innerText = data['rawmeta'];
+          document.getElementById('radio_rawdata').innerText = '♫ ' + data['rawmeta'];
       });
     },
     start_load: function(){
@@ -169,13 +192,36 @@ system.player = {
     },
     stop_load: function(){
         clearInterval(system.player.radioInterval);
+    },
+    
+    menu_win: document.getElementById('radio_menu'),
+    menu: function(){
+        if(system.player.menu_win.hasAttribute('hidden'))
+            system.player.menu_win.setAttribute('hidden');
+        else
+            system.player.menu_win.setAttribute('hidden',1);
     }
 };
 
 system.eventType_core_sound_load = function(target){
+    document.getElementById('radio_rawdata').innerText = '♫ ' + target.innerText;
     system.player.set(target.dataset['source']);
-    document.getElementById('radio_rawdata').innerText = target.innerText;
 }
+
+system.player.fixed = 0;
+window.onscroll = function(event){
+    if(window.scrollY > 210 && !system.player.fixed){
+        document.getElementById('radio_main').style.position = 'fixed';
+        document.getElementById('radio_main').style.top = '0px';
+        document.getElementById('radio_main').style.left = '0.25em';
+        system.player.fixed = 1;
+    }
+    else if(window.scrollY <= 210 && system.player.fixed){
+        document.getElementById('radio_main').style.position = 'relative';
+        document.getElementById('radio_main').style.left = '0em';
+        system.player.fixed = 0;
+    }
+};
 
 system.player.phone.volume = system.player.volume;
 </script>

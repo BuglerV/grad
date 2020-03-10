@@ -1,23 +1,30 @@
 {% if todays %}
 <h>{{ translate('events_main_today') }}</h>
+<div class="window_body">
+  <hr>
 {% for today in todays %}
-    {{ time(today.time,'H:i') }}
-    {{ today.title }}<br>
+    <div class="event_list_time right">{{ time(today.time,'H:i') }}</div>
+    <br><div><b>{{ today.title }}</b></div>
 {% if today.text %}
-    {{ today.text | raw }}
+    <div class="mt05">{{ today.text | raw }}</div>
 {% endif %}
 {% if today.look %}
-      <div hidden>{{ today.look | raw }}</div><span class="events_open" onclick="this.previousElementSibling.toggleAttribute('hidden');">{{ translate('events_hide_show') }}</span><br>
+      <div class="mt05"><div hidden>{{ today.look | raw }}</div><span class="events_open" onclick="if(system.toggleAttr)system.toggleAttr(this.previousElementSibling,'hidden');">{{ translate('events_hide_show') }}</span></div>
 {% endif %}
 {% if user('role') == 'admin' %}
 <div class="blog_info">
   <a href="/admin/events/change/{{ today.id }}" class="admin_button">{{ translate('crud_change') }}</a>
 </div>
 {% endif %}
+  <br><hr>
 {% endfor %}
+</div>
+  </div>
+  <div class="window">
 {% endif %}
 
 <h>{{ translate('events_main_title') }}</h>
+<div class="window_body">
 {% if calendar %}
 {{ calendar | raw }}
 {% endif %}
@@ -29,4 +36,6 @@
     <a href="/admin/events/list/" class="admin_button">{{ translate('crud_all') }}</a>
     <a href="/admin/events/new/" class="admin_button">{{ translate('crud_new') }}</a>
   </span>
+  <div class="clear"></div>
 {% endif %}
+</div>

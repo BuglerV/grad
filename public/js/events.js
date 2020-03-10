@@ -3,7 +3,7 @@
   system.events = {};
   system.events.days = [];
   system.events.months = [];
-  system.events.current;
+  system.events.current = 'start';
   system.events.currentMonth = document.getElementById('events_cal_container').dataset['month'];
   system.events.checkedDay;
   system.events.monthName = [
@@ -13,18 +13,19 @@
   ];
   system.events.changeMonth = function(fullMonth){
       if(typeof(system.events.months[system.events.currentMonth]) == 'undefined'){
-          document.querySelectorAll('.cal_checked').forEach(function(element){
-              element.classList.remove('cal_checked');
-          });
+          jQuery('.cal_checked').removeClass('cal_checked');
+
           system.events.months[system.events.currentMonth] = document.getElementById('calendar').outerHTML;
       }
       
       if(typeof(system.events.months[fullMonth]) !== 'undefined')
       {
           document.getElementById('calendar').outerHTML = system.events.months[fullMonth];
-          var cur = document.querySelector('[data-day="'+system.events.current+'"]');
-          if(cur)
+          if(system.events.current !== 'start'){
+            var cur = document.querySelector('[data-day="'+system.events.current+'"]');
+            if(cur)
               cur.classList.add('cal_checked');
+          }
       }
       else
       {
@@ -39,19 +40,20 @@
           var day = 32 - dt.getDate();
           
           var element = document.createElement('div');
+          
           if(week){
               for(var i = 1; i <= week; i++){
-                  element.append('<div></div>');
+                  jQuery(element).append('<div class="cal_day"> </div>');
               }
           }
           
           var currentDay;
           for(var i = 1; i <= day; i++){
               currentDay = year + '-' + (i>9?i:'0'+i);
-              element.append('<div data-day="'+ currentDay +'" class="cal_day'+ (currentDay == today ? ' cal_today' : '') + (currentDay == system.events.current ? ' cal_checked' : '') + (future_events.indexOf(currentDay)>-1?' blog_tag" data-type="events_day':'') + '">'+ i +'</div>');
+              jQuery(element).append('<div data-day="'+ currentDay +'" class="cal_day'+ (currentDay == today ? ' cal_today' : '') + (currentDay == system.events.current ? ' cal_checked' : '') + (future_events.indexOf(currentDay)>-1?' blog_tag" data-type="events_day':'') + '">'+ i +'</div>');
           }
           
-          document.getElementById('calendar').innerHTML = element.innerText;
+          document.getElementById('calendar').innerHTML = element.innerHTML;
       }
       
       document.getElementById('calendar').dataset['month'] = fullMonth;
@@ -62,9 +64,13 @@
   }
   system.events.changeEvents = function(data,target,day){
       document.getElementById('events_future').innerHTML = data;
-      document.querySelectorAll('.cal_checked').forEach(function(element){
-          element.classList.remove('cal_checked');
-      });
+      jQuery('.cal_checked').removeClass('cal_checked');
+      
+      if(day == 'start'){
+          system.events.current = '';
+          return;
+      }
+      
       target.classList.add('cal_checked');
       
       if(day) system.events.current = day;
@@ -84,9 +90,12 @@
   system.eventType_events_day = function(target){
       if(target.classList.contains('cal_checked'))
           return;
-      
+
       var day = target.dataset['day'];
-      if(system.events.current && !system.events.days[system.events.current])
+      
+      if(day == today) return;
+      
+      if(!system.events.days[system.events.current])
           system.events.days[system.events.current] = document.getElementById('events_future').innerHTML;
           
       if(typeof(system.events.days[day]) !== 'undefined')

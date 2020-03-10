@@ -1,0 +1,148 @@
+<style>
+    .one_chat{
+      margin-bottom:0.25em;
+    }
+    #chat{
+      max-height:400px;
+      overflow-y:overlay;
+    }
+    #chat_main_form input{
+      margin-top:0.5em;
+      width:100%;
+    }
+    #chat_main_form button{
+      margin-top:0.5em;
+      display:block;
+      margin:0.5em auto;
+    }
+</style>
+<div data-role="navigator" id="core_chat">
+    <h>{{ translate('chat_main_title','chat') }}</h>
+    <div class="window_body">
+      <div id="chat">
+{% if chat %}
+{% for message in chat %}
+{{ include('chat_row.twig') }}
+{% endfor %}
+{% else %}
+  <div class="one_chat" data-chatid="zero">
+    {{ translate('chat_no_message','chat') }}
+  </div>
+{% endif %}
+      </div>
+      
+{% if not banned %}
+    <button data-type="chatGetNav" class="mt05" id="refresh_button" style="display:block;width:100%">{{ translate('chat_answer','chat') }}</button>
+        <div hide class="center" id="chatLoading">
+          <img width="40px" src="{{ pathInfo }}/image/loading.gif">
+        </div>
+      <div id="chat_nav">
+      </div>
+{% endif %}
+
+    </div>
+</div>
+<script id="chat_script">
+  var system = system || {};
+  system.chatLoading = document.getElementById('chatLoading');
+  system.chatTimeout;
+  system.chat = document.getElementById('chat');
+  system.lastChat = {{ last }};
+  
+  system.chatSubmit = function(){
+      var data = {submit:1};
+      $('#chat_main_form input').each(function(c,elem){
+          data[elem.name] = elem.value;
+      })
+      if(!data['chat_message']) return false;
+      jQuery.ajax({
+          method: 'POST',
+          url: mainPath + 'window/core/Chat?mode=getNav',
+          charset: 'UTF-8',
+          data: data
+      }).done(function(data){
+          document.getElementById('chat_nav').innerHTML = data;
+      }).fail(function(){
+      });
+  }
+  system.eventType_chatGetNav = function(){
+      system.chatLoading.removeAttribute('hide');
+      document.getElementById('chat_nav').innerText = '';
+      
+      jQuery.ajax({
+          url: mainPath + 'window/core/Chat?mode=getNav',
+          charset: 'UTF-8'
+      }).done(function(data){
+          system.chatLoading.setAttribute('hide',1);
+          if(data){
+              if(data == 'banned'){
+                  document.getElementById('chat_nav').remove();
+                  document.getElementById('refresh_button').remove();
+                  document.getElementById('chatLoading').remove();
+                  document.getElementById('chat_script').remove();
+                  return false;
+              }
+              document.getElementById('chat_nav').innerHTML = data;
+          }
+      }).fail(function(){
+          system.chatLoading.setAttribute('hide',1);
+      });
+  }
+{% if user('role') == 'admin' %}
+  system.eventType_chatDel = function(target){
+      var ban = target.dataset['ban'] ? 'true' : '';
+      var mess = 'Подтвердите удаление';
+      if(ban)
+        mess += ' и бан по IP';
+      if(window.confirm(mess + '.')){
+          var id = target.parentElement.dataset['chatid'];
+          jQuery.ajax({
+              method: 'POST',
+              url: mainPath + 'window/core/Chat?mode=delete',
+              charset: 'UTF-8',
+              data: {
+                  del: ban,
+                  id: id,
+                  csrf: csrf
+              }
+          }).done(function(data){
+              target.parentElement.remove();
+          }).fail(function(){
+          });
+      }
+  }
+{% endif %}
+
+  system.chatTick = function(){
+      jQuery.ajax({
+          method: 'POST',
+          url: mainPath + 'window/core/Chat?mode=getNew',
+          charset: 'UTF-8',
+          data: {
+              id: system.lastChat
+          }
+      }).done(function(data){
+          if(data){
+              var help;
+              data = JSON.parse(data);
+              system.lastChat = data.last;
+              if(data.del.length){
+                  data.del.forEach(function(one){
+                      help = document.querySelector('[data-chatid="'+ one +'"]');
+                      if(help) help.remove();
+                  });
+              }
+              if(data.new.length){
+                  help = document.querySelector('[data-chatid="zero"]');
+                  if(help) help.remove();
+                  data.new.forEach(function(one){
+                      system.chat.innerHTML += one;
+                  });
+              }
+          }
+          system.chatTimeout = setTimeout(system.chatTick,{{ setting('chat_interval') * 1000 }});
+      }).fail(function(){
+          system.chatTimeout = setTimeout(system.chatTick,{{ setting('chat_interval') * 1000 }});
+      });
+  };
+</script>

@@ -5,7 +5,7 @@ namespace Modules\core\src\Controllers;
 abstract class ProtectedAbstractController
 {
     public function __construct(){
-        if(\App\User::i()->isLogged())
+        if(\App\User::i()->isLogged() AND \App\User::i()->role === 'admin')
             return;
         
         if(\App\Request::i()->isXmlHttpRequest())

@@ -11,7 +11,7 @@ class Time extends AbstractWindow
     }
     
     public function manage(){
-        $time = \App\DateTime::i()->set()->getDT('H:i:s');
+        $time = \App\DateTime::i()->set()->getDT('G:i:s');
 
         return \App\Twig::i()->render('core_timer.twig',[
             'time' => $time

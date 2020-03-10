@@ -120,6 +120,30 @@
           data: data
       }).done(function(data){document.getElementById('core_quote').outerHTML = data});
   }
+  
+  system.toggleAttr = function(elem,attr){
+      if(elem.hasAttribute(attr))
+          elem.removeAttribute(attr);
+      else
+          elem.setAttribute(attr,1);
+  };
+  
+(function() {
+  if (!Element.prototype.matches) {
+      var t = Element.prototype;
+      t.matches = t.msMatchesSelector||t.mozMatchesSelector||t.webkitMatchesSelector;
+  }
+  if (!Element.prototype.closest) {
+    Element.prototype.closest = function(css) {
+        var node = this;
+        while (node) {
+            if (node.matches(css)) return node;
+            else node = node.parentElement;
+        }
+        return null;
+    };
+  }
+})();
 
   window.onload = function(){
       document.addEventListener('click',function(event){
@@ -135,13 +159,101 @@
           system.player.start_load();
       }
       
+      if(system.chatTick){
+          system.chatTick();
+      }
+      
       if(typeof(CKEDITOR) != 'undefined'){
           var elements = document.querySelectorAll('textarea[data-editor]');
           if(elements)
               elements.forEach(function(element){
                   CKEDITOR.replace(element.name, {
-                      filebrowserUploadUrl: '/uploader.php'
+                      filebrowserUploadUrl: '/uploader.php',
+                      contentsCss: ['/css/main.css']
                   });
               });
       }
+      
+      //-----------------------------------------------------
+
+        // var gui = new dat.GUI();
+        
+        // var ss = {
+            // mainBackground: '#FFFFFF',
+            // mainColor: '#331702',
+            // mainTextSize: 0.9,
+            // mainFont: 'bookos',
+            
+            // winBorder: true,
+            // winBorderColor: '#EAF2F3',
+            // winBackground: '#F7F7F7',
+            
+            // headBorder: true,
+            // headBorderColor: '#E2E8E8',
+            // headBackground: '#E5EFED',
+            // headTextSize: 20,
+            
+            // linkAll: '#73C0C4',
+            // linkAdmin: '#E16874',
+            // linkElse: '#BCBDBC'
+        // };
+        
+        // var f1 = gui.addFolder('Основной фон');
+        // f1.addColor(ss,'mainBackground');
+        // f1.addColor(ss,'mainColor');
+        // f1.add(ss,'mainTextSize').min(0.1).max(2).step(0.01);
+        // f1.add(ss,'mainFont',['bookos','Tahoma','Arial','Courier','Garamond','Georgia','Tahoma',"'Times New Roman'",'Verdana'])
+        
+        // var f2 = gui.addFolder('Окна');
+        // f2.add(ss,'winBorder');
+        // f2.addColor(ss,'winBorderColor');
+        // f2.addColor(ss,'winBackground');
+        
+        // var f3 = gui.addFolder('Заголовки окон');
+        // f3.add(ss,'headBorder');
+        // f3.addColor(ss,'headBorderColor');
+        // f3.addColor(ss,'headBackground');
+        // f3.add(ss,'headTextSize').min(4).max(50).step(1);
+       
+        // var f4 = gui.addFolder('Цвета кнопок');
+        // f4.addColor(ss,'linkAll');
+        // f4.addColor(ss,'linkAdmin');
+        // f4.addColor(ss,'linkElse');
+       
+        // setInterval(function(){
+            
+            // var res = '#container{background-color:'+ ss.mainBackground +';color:'+ ss.mainColor +';}';
+            // res += '#body{font-size:'+ ss.mainTextSize +'em;}';
+            // res += '#body{font-family:'+ ss.mainFont +'}';
+            
+            // res += '.window,nav{background-color:'+ ss.winBackground +';';
+            // res += 'border:';
+            // if(ss.winBorder){
+                // res += '1px solid '+ ss.winBorderColor;
+            // }
+            // else{
+                // res += 'none';
+            // }
+            // res += ';}';
+            
+            // res += 'h{background-color:'+ ss.headBackground +';';
+            // res += 'font-size:'+ ss.headTextSize +'px;';
+            // res += 'border:';
+            // if(ss.headBorder){
+                // res += '1px solid '+ ss.headBorderColor;
+            // }
+            // else{
+                // res += 'none';
+            // }
+            // res += ';}';
+            
+            // res += '.admin_button{color:'+ ss.linkAdmin +';}';
+            // res += '.blog_tag{color:'+ ss.linkAll +';}';
+            // res += '.blog_open, .events_open{color:'+ ss.linkElse +';}';
+            
+            // document.getElementById('main_style').innerText = res;
+        // },500);
+        
+
+      //-----------------------------------------------------
   };

@@ -3,9 +3,11 @@
     <head>
         <meta charset="UTF-8">
         <title>{% block title %}{{ title }}{% endblock %}</title>
+        <link rel="shortcut icon" href="/favico.png" sizes="32x32" type="image/png" />
 {% for style in css %}
         <link href="{{ pathInfo }}{{ style }}" rel="stylesheet">
 {% endfor %}
+        <link rel="icon" href="/favico.png" sizes="32x32" />
     </head>
     <body>
       <script>
@@ -15,11 +17,6 @@
 {% endfor %}
       </script>
         <div id="container">
-<header>
-{% block header %}
-{% include 'base/header.public.twig' %}
-{% endblock %}
-</header>
 
 <div id="body">
 {% block body %}
@@ -29,7 +26,7 @@
 
 <footer>
 {% block footer %}
-Подножка
+  Разработка сайта: Власов Сергей (BuglerV)
 {% endblock %}
 </footer>
         </div>

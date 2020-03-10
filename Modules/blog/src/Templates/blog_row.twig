@@ -1,12 +1,13 @@
    <div class="blog_post" data-id="{{ post.id }}"{% if post.after %} blogAfter{% elseif not post.is_opened %} blogClosed{% endif %}>
        <h3>{{ post.title }}</h3>
-       <div>{{ post.preview | raw }}</div>
+       <div class="mt05">{{ post.preview | raw }}</div>
 {% if post.text %}
-      <div hidden>{{ post.text | raw }}</div><span class="blog_open" onclick="this.previousElementSibling.toggleAttribute('hidden');">{{ translate('blog_hide_show') }}</span><br>
+      <div class="mt05"><div hidden>{{ post.text | raw }}</div><span class="blog_open" onclick="if(system.toggleAttr)system.toggleAttr(this.previousElementSibling,'hidden');">{{ translate('blog_hide_show') }}</span></div>
 {% endif %}
 {% if post.files %}{% if setting('radio_enabled') %}
+      <br>
 {% for file in post.files %}
-      <span data-type="core_sound_load" data-source="{{ file }}" class="blog_tag">{{ sound_name(file) }}</span><br>
+      &#9835; <span data-type="core_sound_load" data-source="{{ file }}" class="blog_tag">{{ sound_name(file) }}</span><br>
 {% endfor %}
 {% endif %}{% endif %}
       <div class="blog_info">
