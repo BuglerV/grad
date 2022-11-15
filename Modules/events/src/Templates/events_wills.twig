@@ -7,8 +7,10 @@
         {{ time(tomorrow.date,'d') }}
     </div>
     <div class="mt05"><b>{{ tomorrow.title }}</b></div>
+    <div class="clear"></div>
 {% if tomorrow.text %}
     <div class="mt05">{{ tomorrow.text | raw }}</div>
+    <div class="clear"></div>
 {% endif %}
 {% if tomorrow.look %}
       <div class="mt05"><div hidden>{{ tomorrow.look | raw }}</div><span class="events_open" onclick="if(system.toggleAttr)system.toggleAttr(this.previousElementSibling,'hidden');">{{ translate('events_hide_show') }}</span></div>

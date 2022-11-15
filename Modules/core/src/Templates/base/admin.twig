@@ -20,9 +20,10 @@
 <div id="body">
 {% if user('role') == 'admin' %}
 <nav>
-  <a href="/admin" class="admin_button">{{ translate('admin_admin') }}</a>
   <a href="/" class="admin_button">{{ translate('admin_home') }}</a>
-  <a href="/admin/logout" class="admin_button">{{ translate('admin_logout') }}</a>
+  <a href="/admin" class="admin_button">{{ translate('admin_admin') }}</a>
+  <a href="/admin/pageModify" class="admin_button">{{ translate('admin_modify') }}</a>
+  <a href="/admin/logout" class="admin_button">{{ translate('admin_logout') }} ({{ user('name') }})</a>
 </nav>
 {% endif %}
     <div class="window">

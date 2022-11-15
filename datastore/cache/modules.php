@@ -9,7 +9,6 @@ return array (
   ),
   'blog' => 
   array (
-    'Post' => 1,
     'View' => 1,
   ),
   'quotes' => 
@@ -22,4 +21,4 @@ return array (
   ),
 );
 
-//Stored 2020-03-08 09:26:23
+//Stored 2022-01-14 10:01:40

@@ -10,8 +10,12 @@ class Module extends AbstractModule
     
     public function boot(){
         \App\Twig::i()->addFunction('sound_name',function($name){
-            $name = basename($name);
-            $name = explode('.',$name)[0];
+            if(stream_is_local($name)){
+                $name = implode('.',explode('.',trim(basename($name)),-3));
+            }
+            else{
+                $name = explode('.',basename($name))[0];
+            }
             return $name;
         });
     }

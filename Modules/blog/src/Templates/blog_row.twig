@@ -1,8 +1,10 @@
    <div class="blog_post" data-id="{{ post.id }}"{% if post.after %} blogAfter{% elseif not post.is_opened %} blogClosed{% endif %}>
        <h3>{{ post.title }}</h3>
        <div class="mt05">{{ post.preview | raw }}</div>
+       <div class="clear"></div>
 {% if post.text %}
       <div class="mt05"><div hidden>{{ post.text | raw }}</div><span class="blog_open" onclick="if(system.toggleAttr)system.toggleAttr(this.previousElementSibling,'hidden');">{{ translate('blog_hide_show') }}</span></div>
+      <div class="clear"></div>
 {% endif %}
 {% if post.files %}{% if setting('radio_enabled') %}
       <br>

@@ -1,6 +1,6 @@
 <div>
   <div class="column" style="width:250px; vertical-align:top;">
-    <img src="image/logo.jpg" style="width:250px;">
+    <img id="main_logo" src="/image/logo2.png" style="width:250px;">
 {% if setting('radio_enabled') %}
 {% include('base/radio.twig') %}
 {% endif %}
@@ -8,17 +8,16 @@
     <div class="window">{{ window(row.name,row.params)|raw }}</div>
 {% endfor %}
   </div>
-        <!-- <div style="font-size: 40px; text-align: center;">{{ setting('siteName') }}</div> -->
   <div style="display: inline-block; width: calc(100% - 260px);">
 {% if user('role') == 'admin' %}
     <nav>
         <a class="admin_button" href="/admin/">{{ translate('admin_admin') }}</a>
-        <a class="admin_button" href="/admin/logout">{{ translate('admin_logout') }}</a>
+        <a class="admin_button" href="/admin/logout">{{ translate('admin_logout') }} ({{ user('name') }})</a>
     </nav>
 {% endif %}
       <div>
 {% for column in columns %}
-         <div class="column{% if loop.first %} first_column_line{% endif %}" style="width:{% if loop.first %}66%{% else %}33%{% endif %};vertical-align:top;">
+         <div data-column="{{ column.name }}" class="column{% if loop.first %} first_column_line{% endif %}" style="width:{% if loop.first %}66%{% else %}33%{% endif %};vertical-align:top;">
 {% for row in column.windows %}
             <div class="window">{{ window(row.name,row.params)|raw }}</div>
 {% endfor %}

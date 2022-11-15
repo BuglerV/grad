@@ -1,13 +1,27 @@
 <br><hr><br>
 {% for module in modules %}
-{{ module.name }} 
+{% if module.enabled %}
+<a href="/admin/?module={{ module.name }}&do=off" style="color:green;">{{ module.name }}</a>
+{% else %}
+<a href="/admin/?module={{ module.name }}&do=on" style="color:red;">{{ module.name }}</a>
+{% endif %}
 {% if module.settings %}
 <a href="/admin/setting/{{ module.name }}" class="admin_button">{{ translate('admin_settings') }}</a>
 {% endif %}
 <br>
+
 {% if module.windows %}
-Окна: {% for window in module.windows %}<span style="color:{% if window.enabled %}green{% else %}red{% endif %};">{{ window.name }}</span> {% endfor %}<br>
+<span>Окна: </span>
+{% for window in module.windows %}
+{% if window.enabled %}
+<a href="/admin/?module={{ module.name }}&window={{ window.name }}&do=off" style="color:green;">{{ window.name }}</a> 
+{% else %}
+<a href="/admin/?module={{ module.name }}&window={{ window.name }}&do=on" style="color:red;">{{ window.name }}</a> 
 {% endif %}
+{% endfor %}
+<br>
+{% endif %}
+
 {% if module.crud %}
 Контент: 
 <a href="/admin/{{ module.name }}/new" class="admin_button">{{ translate('crud_new') }}</a>

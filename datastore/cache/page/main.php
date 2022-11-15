@@ -1,49 +1,57 @@
 <?php
 
-return [
-    0 => [
-        'name' => '',
-        'flexgrow' => 1,
-        'order' => 1,
-        'windows' => [
-            [
-                'name' => 'Modules\\core\\windows\\Chat',
-                'params' => ''
-            ],
-            [
-                'name' => 'Modules\\quotes\\windows\\Quote',
-                'params' => ''
-            ],
-            [
-                'name' => 'Modules\\core\\windows\\Link',
-                'params' => ''
-            ]
-        ]
-    ],
-    1 => [
-        'name' => '',
-        'flexgrow' => 2,
-        'order' => 2,
-        'windows' => [
-            [
-                'name' => 'Modules\\blog\\windows\\View',
-                'params' => ''
-            ]
-        ]
-    ],
-    2 => [
-        'name' => '',
-        'flexgrow' => 1,
-        'order' => 3,
-        'windows' => [
-            [
-                'name' => 'Modules\\core\\windows\\Time',
-                'params' => ''
-            ],
-            [
-                'name' => 'Modules\\events\\windows\\Event',
-                'params' => ''
-            ]
-        ]
-    ]
-];
+return array (
+  'main' => 
+  array (
+    'name' => 'main',
+    'windows' => 
+    array (
+      0 => 
+      array (
+        'params' => '',
+        'name' => 'Modules\\core\\windows\\Chat',
+      ),
+      1 => 
+      array (
+        'params' => '',
+        'name' => 'Modules\\quotes\\windows\\Quote',
+      ),
+      2 => 
+      array (
+        'params' => '',
+        'name' => 'Modules\\core\\windows\\Link',
+      ),
+    ),
+  ),
+  'body' => 
+  array (
+    'name' => 'body',
+    'windows' => 
+    array (
+      0 => 
+      array (
+        'params' => '',
+        'name' => 'Modules\\blog\\windows\\View',
+      ),
+    ),
+  ),
+  'sidebar' => 
+  array (
+    'name' => 'sidebar',
+    'windows' => 
+    array (
+      0 => 
+      array (
+        'params' => '',
+        'name' => 'Modules\\core\\windows\\Time',
+      ),
+      1 => 
+      array (
+        'params' => '',
+        'name' => 'Modules\\events\\windows\\Event',
+      ),
+    ),
+  ),
+);
+
+//Stored 2022-01-14 10:00:45

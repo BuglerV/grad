@@ -25,11 +25,13 @@ body{
     font-family: Arial bookos;
     font-size:0.9em;
     padding: 0;
+    min-height:100%;
+    background-image: url('/image/fon2.png');
 }
 
 footer{
     margin-top: 0.5em;
-    border-top: 3px double black;
+    /* border-top: 3px double black; */
     padding: 0.5em 3em;
     color: #666;
     text-align: right;
@@ -50,6 +52,13 @@ footer{
 .clear{
     clear:both;
 }
+.clearfix:after{
+    content: '.';
+    width: 0px;
+    opacity: 0%;
+    clear: both;
+}
+
 .center{
     text-align: center;
     margin: auto;
@@ -75,7 +84,7 @@ button[disabled]{
 
 /* Для админов */
 .admin_button{
-    color: #3d3d3d;
+    color: #072aec;
     font-weight: 800;
 }
 .admin_button:hover, a:hover{
@@ -103,16 +112,17 @@ button[disabled]{
 
 #container{
     min-height: 100%;
+    max-width:95%;
     margin:0 auto;
-    padding:0.25em;
-    background-color:#fff;
+    /* padding:0.25em; */
+    /* background-color: rgba(255,255,255,0.8); */
+    background-color: white;
     color: black;
 }
 
 @media (min-width: 1300px){
     #container{
-        padding-left: 6em;
-        padding-right: 6em;
+        width:1100px;
     }
 }
 
@@ -138,7 +148,7 @@ h{
 nav{
     display:flex;
     justify-content:space-around;
-    border-bottom: 3px double black;
+    /* border-bottom: 3px double black; */
 }
 
 
@@ -169,7 +179,7 @@ nav{
 .first_column_line{
     border-width: 3px;
     border-color: black;
-    border-style: double;
+    /* border-style: double; */
     border-top: none;
     border-bottom: none;
 }
@@ -249,7 +259,7 @@ button:hover{
 
 .blog_open, .events_open{
     cursor:pointer;
-    color:#f8fff8;
+    color:black;
     font-weight: 800;
     text-decoration:bold;
 }
@@ -274,10 +284,10 @@ button:hover{
     margin-top:0.5em;
 }
 [blogClosed]{
-    /* background-color:#300; */
+    background-color:#FFE7EC;
 }
 [blogAfter]{
-    /* background-color:#003; */
+    background-color:#FFFFC1;
 }
 
 

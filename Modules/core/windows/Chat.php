@@ -63,13 +63,21 @@ class Chat extends AbstractWindow
     
     protected function submitMessage()
     {
-        if(!isset($_POST['chat_message']) OR !$message = $this->strip(trim($_POST['chat_message'])))
+        if(!isset($_POST['chat_message']) OR !$message = $this->strip($_POST['chat_message']))
             return 'Не введено сообщение';
+        
+        if(mb_strlen($message) > 100)
+            $message = mb_substr($message,0,500) . '...';
         
         if(!isset($_POST['csrf']) OR !$_POST['csrf'] OR $_POST['csrf'] !== $this->getChatToken())
             return 'Ошибка';
         
-        $name = $_POST['chat_author'] ? $this->strip($_POST['chat_author']) : \App\I18n::i()->translate('chat_anonim',['domain'=>'chat']);
+        $name = $_POST['chat_author'] ? $this->strip($_POST['chat_author']) : '';
+        $name = mb_substr($name,0,100);
+        if($name AND \App\User::i()->role != 'admin')
+            \App\Cookie::i()->chat_name = $name;
+        
+        $name = $name ?: \App\I18n::i()->translate('chat_anonim',['domain'=>'chat']);
         
         $type = \App\User::i()->role == 'admin' ? 'Admin' : 'guest';
         
@@ -81,7 +89,7 @@ class Chat extends AbstractWindow
     
     protected function strip($string)
     {
-        return $string;
+        return trim($string);
         //return htmlspecialchars($string, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
     }
     
@@ -102,7 +110,7 @@ class Chat extends AbstractWindow
             return \App\Twig::i()->render('chat_form.twig',[
                 'error' => $error ?? '',
                 'csrf' => $csrf,
-                'name' => \App\Cookie::i()->chat_name ?? \App\User::i()->name ?? ''
+                'name' => \App\User::i()->name ?? \App\Cookie::i()->chat_name ?? ''
             ]);
         }
         $time = new \DateTime($this->lastChat);
@@ -127,7 +135,7 @@ class Chat extends AbstractWindow
             $stmt->execute([$id]);
             if($stmt->rowCount()){
                 $ip = $stmt->fetch(\PDO::FETCH_ASSOC)['ip'];
-                $stmt->preapare('INSERT INTO banned_chat_ip SET `ip` = ?,`datetime` = ?;');
+                $stmt = \App\Db::i()->prepare('INSERT INTO banned_chat_ip SET `ip` = ?,`datetime` = ?;');
                 $stmt->execute([$ip,$this->time]);
             }
         }
@@ -193,11 +201,3 @@ class Chat extends AbstractWindow
         ]);
     }
 }
-
-// INSERT INTO windows SET `module_id` = 1, `name` = 'Chat', `enabled` = 1;
-
-// CREATE TABLE chat (id INT(10) auto_increment PRIMARY KEY, name VARCHAR(100) NULL, text TEXT NULL, ip VARCHAR(15) NULL, type VARCHAR(50) NOT NULL DEFAULT 'guest', datetime DATETIME);
-
-// CREATE TABLE `chat_tokens` ( `id` int(11) NOT NULL AUTO_INCREMENT, `ip` varchar(15) DEFAULT NULL, `token` varchar(40) DEFAULT NULL, PRIMARY KEY (`id`) ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-// CREATE TABLE `banned_chat_ip` ( `id` int(10) NOT NULL AUTO_INCREMENT, `ip` varchar(15) DEFAULT NULL, `datetime` datetime DEFAULT NULL, `reason` text, PRIMARY KEY (`id`), UNIQUE KEY `ip` (`ip`) ) ENGINE=InnoDB DEFAULT CHARSET=utf8

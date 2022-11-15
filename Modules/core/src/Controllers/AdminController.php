@@ -5,6 +5,12 @@ namespace Modules\core\src\Controllers;
 class AdminController extends ProtectedAbstractController
 {
     public function indexAction(){
+        if($do = \App\Request::i()->get('do') AND \App\User::i()->checkCsrf()){
+            $module = \App\Request::i()->get('module');
+            $window = \App\Request::i()->get('window');
+            \App\Modules\Modules::i()->enable($do,$module,$window);
+        }
+        
         $modules = \App\Modules\Modules::i()->getModuleVars();
         \App\Output::i()->output = \App\Twig::i()->render('admin_main.twig',[
             'modules' => $modules

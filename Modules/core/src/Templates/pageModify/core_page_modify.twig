@@ -1,0 +1,196 @@
+<div id="modify_main" data-role="navigator">
+  <h>Редактор страниц</h>
+
+<style>
+  #modify_main{
+    padding:5px;
+  }
+  #liftMain{
+    display:flex;
+    flex-direction:row;
+  }
+  #liftMain > *{
+    margin:0 5px;
+    flex: 1 1;
+  }
+  #page_body{
+    flex: 2 1;
+  }
+  
+  .modify_column{
+    display:flex;
+    flex-direction:column;
+    min-height:3em;
+    border:3px dotted black;
+    padding: 2px;
+  }
+  .modify_window{
+    border:3px double black;
+    padding:3px;
+    margin:0.2em 0;
+    background-color:#afa;
+    cursor:pointer;
+  }
+  .modify_window.closed{
+    background-color:#faa;
+  }
+  .modify_header{
+    text-align: center;
+    font-size:2em;
+  }
+  #notcheck{
+    flex-direction:row;
+    flex-wrap:wrap;
+    margin:0 2px;
+  }
+  #notcheck .modify_window{
+    flex-basis: 25%;
+  }
+  
+  .touch_shadow{
+    position:fixed;
+    width:200px;
+    height:50px;
+    border: 3px dashed black;
+  }
+</style>
+
+  <div id="liftMain">
+{% for name,column in data %}
+    <div id="page_{{ name }}">
+      <h>{{ name }}</h>
+      <div class="modify_column" data-modify="{{ name }}" ondragenter="return system.drag.enter(event);" ondragover="event.preventDefault();" ondrop="return system.drag.drop(event);">
+{% for window in column %}
+        <div class="modify_window{% if not window.enabled %} closed{% endif %}" id="{{ window.name }}" draggable="true" ondragstart="return system.drag.start(event);" ontouchend="system.drag.touchend(event);" ontouchmove="return system.drag.touchmove(event);" ontouchstart="return system.drag.start(event);">
+          <div class="modify_header">{{ translate(window.name,'windows') }}</div>
+        </div>
+{% endfor %}
+      </div>
+    </div>
+{% endfor %}
+  </div>
+  <h>Не выбраны</h>
+  <div class="modify_column" id="notcheck" ondragenter="return system.drag.enter(event);" ondragover="event.preventDefault();" ondrop="return system.drag.drop(event);">
+{% if data %}
+{% for name,enabled in modules %}
+        <div class="modify_window{% if not enabled %} closed{% endif %}" id="{{ name }}" draggable="true" ondragstart="return system.drag.start(event);" ontouchstart="return system.drag.start(event);" ontouchend="system.drag.touchend(event);" ontouchmove="return system.drag.touchmove(event);">
+          <div class="modify_header">{{ translate(name,'windows') }}</div>
+        </div>
+{% endfor %}
+{% endif %}
+  </div>
+  <div>
+    <br>
+    <button data-type="modifySave">{{ translate('submit','form') }}</button>
+    <span id="inner_message"></span>
+  </div>
+
+  <script>
+    var system = system || {};
+    system.drag = {};
+    system.drag.id;
+    
+    system.drag.start = function(event){
+      var target = event.target.closest('.modify_window');
+      if(!target) return false;
+      system.drag.id = target.id;
+      return true;
+    };
+    
+    system.drag.shadow;
+    system.drag.touchmove = function(event){
+      if(!system.drag.shadow){
+        system.drag.shadow = document.createElement('div');
+        document.body.appendChild(system.drag.shadow);
+        system.drag.shadow.classList.add('touch_shadow');
+      }
+      var touch = event.changedTouches[0];
+      
+      system.drag.shadow.style.top = touch.clientY - 25 + 'px';
+      system.drag.shadow.style.left = touch.clientX - 100 + 'px';
+
+      return false;
+    };
+    
+    system.drag.touchend = function(event){
+      event.stopPropagation();
+      system.drag.shadow.remove();
+      system.drag.shadow = null;
+      //event.cancelable = true;
+      var touch = event.changedTouches[0];
+      var elem = document.elementFromPoint(touch.pageX,touch.pageY);
+      
+      var ev = {
+        stopPropagation: function(){},
+        target: elem,
+        clientY: touch.clientY
+      };
+      return system.drag.drop(ev);
+    };
+    
+    system.drag.drop = function(event){
+      event.stopPropagation();
+
+      var id = system.drag.id;
+      system.drag.id = null;
+      if(!id) return false;
+      
+      var elem = document.getElementById(id);
+      if(!elem || elem == event.target) return false;
+
+      var to = event.target.closest('.modify_column');
+      if(!to) return false;
+
+      if(to.childElementCount){
+        var len = to.children.length;
+        var y = event.clientY;
+        var rect;
+        var child;
+        for(var i = 0; i < len; i++){
+          child = to.children[i];
+          rect = child.getBoundingClientRect();
+          if(y < (rect.y + (rect.height / 2))){
+            $(child).before(elem);
+            return false;
+          }
+        }
+        $(child).after(elem);
+      }
+      else{
+        to.appendChild(elem);
+      }
+
+      return false;
+    };
+    system.drag.enter = function(event){
+      event.preventDefault();
+      return true;
+    };
+    
+    system.eventType_modifySave = function(){
+      document.getElementById('inner_message').innerText = '';
+      var columns = document.querySelectorAll('#liftMain .modify_column');
+      var data = {};
+      var column;
+      columns.forEach(function(elem){
+        column = elem.dataset['modify'];
+        data[column] = [];
+        elem.querySelectorAll('.modify_window').forEach(function(win){
+          data[column].push(win.id);
+        });
+      });
+      
+      jQuery.ajax({
+          url: mainPath + 'admin/pageModify/save/',
+          charset: 'UTF-8',
+          data: {
+              windows: JSON.stringify(data)
+          }
+      }).done(function(data){
+          if(data=='success'){
+            document.getElementById('inner_message').innerText = 'Сохранено';
+          }
+      });
+    };
+  </script>
+</div>

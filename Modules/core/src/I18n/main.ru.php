@@ -7,7 +7,8 @@ return [
     'crud_delete' => 'Удалить',
     
     'admin_logout' => 'Выйти',
-    'admin_home' => 'Главная',
+    'admin_modify' => 'Редактор',
+    'admin_home' => 'Сервер',
     'admin_admin' => 'Админка',
     'admin_settings' => 'Настройки',
 ];

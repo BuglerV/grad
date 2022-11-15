@@ -7,9 +7,11 @@
     <br><div><b>{{ today.title }}</b></div>
 {% if today.text %}
     <div class="mt05">{{ today.text | raw }}</div>
+    <div class="clear"></div>
 {% endif %}
 {% if today.look %}
       <div class="mt05"><div hidden>{{ today.look | raw }}</div><span class="events_open" onclick="if(system.toggleAttr)system.toggleAttr(this.previousElementSibling,'hidden');">{{ translate('events_hide_show') }}</span></div>
+      <div class="clear"></div>
 {% endif %}
 {% if user('role') == 'admin' %}
 <div class="blog_info">
